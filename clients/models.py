@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models import signals
+from django.dispatch import receiver
 
 
 class BaseModel(models.Model):
@@ -36,3 +38,12 @@ class People(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+@receiver(signals.post_save, sender=People)
+@on_transaction_commit
+def people_index(sender, instance, created, **kwargs):
+    from elasticsearch.document import PeopleDocument
+
+    try:
+        with Elasti
