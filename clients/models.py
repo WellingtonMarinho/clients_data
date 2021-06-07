@@ -12,7 +12,7 @@ class BaseModel(models.Model):
 
 class People(BaseModel):
     SEX = (
-        ('f', 'Female'),
+        ('f', 'Feminino'),
         ('m', 'Masculino'),
         # ('f', _('Female')),
         # ('m', _('Male'))
@@ -22,7 +22,7 @@ class People(BaseModel):
     cpf = models.CharField('CPF', max_length=14)
     rg = models.CharField('RG', max_length=12)
     birth_date = models.DateField(_('Birth date'))
-    sex = models.CharField(_('Sex'), choices=SEX, max_length=9)
+    sex = models.CharField(_('Sex'), choices=SEX, max_length=1)
     sign = models.CharField(max_length=15)
     mother_name = models.CharField(_('Mother Name'), max_length=255)
     father_name = models.CharField(_('Father Name'), max_length=250)

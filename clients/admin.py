@@ -1,4 +1,8 @@
 from django.contrib import admin
 from .models import People
 
-admin.site.register(People)
+@admin.register(People)
+class PeopleAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'sex', 'age', 'mobile')
+    list_display_links = ('name', )
+

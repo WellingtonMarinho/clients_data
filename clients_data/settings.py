@@ -144,3 +144,23 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ELASCTISEARCH CONFIG
+
+
+ES_CONNECTIONS = {
+    config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): {
+        'hosts': [config('ELASTICSEARCH_HOST')],
+    }
+}
+
+PROJECT_INDEX_PEOPLE = config('PROJECT_INDEX_PEOPLE', 'index.peoples')
+
+ES_INDEXES = {
+    config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): [
+        (PROJECT_INDEX_PEOPLE, 'elasticsearch.document')
+    ]
+}
+
+ES_DEFAULT_BATCH_SIZE = config('ES_DEFAULT_BATCH_SIZE', default=100, cast=int)

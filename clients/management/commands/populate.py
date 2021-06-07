@@ -10,6 +10,7 @@ class Command(BaseCommand):
         try:
             for _ in range(500000):
                 create_people()
+                print(_)
             print('Populate success')
         except Exception as e:
             print(f'Error: \n\n{e}')
