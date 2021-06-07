@@ -25,4 +25,23 @@ brazilian_stemmer_filter = token_filter(
 text_analyzer = analyzer(
     'text_analyzer',
     tokenize='standard',
+    filter=[
+        'lowercase',
+        'asciifolding',
+        synonym_tokenfilter
+    ],
+    char_filter=['html_strip']
+)
+
+brazilian_text_analyzer = analyzer(
+    'text_analyzer',
+    tokenize='standard',
+    filter=[
+        'lowercase',
+        'asciifolding',
+        brazilian_stop_filter,
+        synonym_tokenfilter,
+        brazilian_stemmer_filter
+    ],
+    char_filter=['html_strip']
 )
