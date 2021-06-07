@@ -18,7 +18,7 @@ brazilian_stop_filter = token_filter(
 
 brazilian_stemmer_filter = token_filter(
     'brazilian_stemmer_filter',
-    'stemmer',
+    'stemmer', # < - analiza radicais.
     language='brazilian'
 )
 
@@ -26,7 +26,7 @@ text_analyzer = analyzer(
     'text_analyzer',
     tokenize='standard',
     filter=[
-        'lowercase',
+        'lowercase', # <-  indexa tudo em minúsculo
         'asciifolding',
         synonym_tokenfilter
     ],
