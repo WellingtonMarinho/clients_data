@@ -31,12 +31,16 @@ services:
     kibana:
         image: docker.elastic.co/kibana/kibana:7.13.1
         container_name: kibana_server
+        ports:
+          - "5601:5601"
 #        volumes:
 #          - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     clients_data_app:
         build: .
         command: >
             sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:9000"
+        ports:
+          - "9000:9000"
         volumes:
           - .:/app
         container_name: django_app
