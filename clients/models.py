@@ -1,7 +1,9 @@
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 from django.db.models import signals
 from django.dispatch import receiver
+
+from elasticsearch_app import ElasticSearchConnection
 
 
 class BaseModel(models.Model):
@@ -14,8 +16,8 @@ class BaseModel(models.Model):
 
 class People(BaseModel):
     SEX = (
-        ('f', 'Feminino'),
-        ('m', 'Masculino'),
+        ('Feminino', 'Feminino'),
+        ('Masculino', 'Masculino'),
         # ('f', _('Female')),
         # ('m', _('Male'))
     )
@@ -24,12 +26,12 @@ class People(BaseModel):
     cpf = models.CharField('CPF', max_length=14)
     rg = models.CharField('RG', max_length=12)
     birth_date = models.DateField(_('Birth date'))
-    sex = models.CharField(_('Sex'), choices=SEX, max_length=1)
+    sex = models.CharField(_('Sex'), choices=SEX, max_length=9)
     sign = models.CharField(max_length=15)
     mother_name = models.CharField(_('Mother Name'), max_length=255)
     father_name = models.CharField(_('Father Name'), max_length=250)
     email = models.EmailField('Email')
-    telefone_number = models.CharField(_('Phone number'), max_length=20)
+    telefone_number = models.CharField(_('Phone number'), max_length=20, blank=True, null=True)
     mobile = models.CharField(_('Mobile'), max_length=20)
     height = models.FloatField(_('Height'))
     weight = models.IntegerField(_('Weight'))
@@ -40,11 +42,39 @@ class People(BaseModel):
         return self.name
 
 
+def on_transaction_commit(func):
+    """
+    Decorator to run signals only after transaction commit
+    Example:
+
+    @receiver(post_save, sender=SomeModel)
+    @on_transaction_commit
+    def my_ultimate_func(sender, **kwargs):
+        # Do things here
+
+    """
+    def inner(*args, **kwargs):
+        transaction.on_commit(lambda: func(*args, **kwargs))
+
+    return inner
+
+
 @receiver(signals.post_save, sender=People)
-# @on_transaction_commit
+@on_transaction_commit
 def people_index(sender, instance, created, **kwargs):
-    pass
-    # from elasticsearch.document import PeopleDocument
+
+    print('#'* 250)
+    print('ENTROU NO people_index')
+    print('#'* 250)
+
+    from .document import PeopleDocument
+
+    try:
+        with ElasticSearchConnection(PeopleDocument):
+            document = PeopleDocument.build_document(instances=instance)
+            document and document.save()
+    except Exception as e:
+        print(f'Erro ao indexar dado: \n\nErro: {e}')
 
     # try:
     #     with Elasti

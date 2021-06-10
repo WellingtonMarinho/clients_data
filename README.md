@@ -2,7 +2,7 @@
 
 ## Build and run docker image:
     $ docker compose build
-    $ docker network create my_project_elasticsearch
+    $ docker network create network_local
     $ docker compose up
 
 ### For run Django commands:

@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-    db:
+    database:
         image: postgres
         container_name: postgres_server
         environment:
@@ -35,7 +35,7 @@ services:
 #          - "5601:5601"
 ##        volumes:
 ##          - ./kibana.yml:/usr/share/kibana/config/kibana.yml
-    clients_data_app:
+    django:
         build: .
         command: >
             sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:9000"
