@@ -63,7 +63,7 @@ def on_transaction_commit(func):
 @on_transaction_commit
 def people_index(sender, instance, created, **kwargs):
 
-    print(f'Indexing:: {instance.pk} - {instance.name}')
+    print(f'Try indexing:: {instance.pk} - {instance.name}')
 
     from .document import PeopleDocument
 
@@ -71,6 +71,7 @@ def people_index(sender, instance, created, **kwargs):
         with ElasticSearchConnection(PeopleDocument):
             document = PeopleDocument.build_document(instance=instance)
             document and document.save()
+            print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
 
     except Exception as e:
-        print(f'Erro ao indexar dado: \n\nErro: {e}')
+        print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')

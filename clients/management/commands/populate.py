@@ -13,7 +13,7 @@ class Command(BaseCommand):
                 # print(_)
             print('Populate success')
         except Exception as e:
-            print(f'Error: \n\n{e}')
+            print(f'Error ao popular banco de dados: \n\n{e}')
 
     def handle(self, **options):
         self.create()
