@@ -72,6 +72,7 @@ class PeopleDocument(DocumentBase):
                 type_blood=instance.type_blood,
                 favorite_color=instance.favorite_color
             )
+            return document
 
     @classmethod
     def _define_people_age(cls, instance):

@@ -38,6 +38,7 @@ class DocumentBase(es.Document):
         }
         """
         connections = settings.ES_CONNECTIONS
+        # connections = {'hosts': 'http://localhost:9200'}
         indexes = settings.ES_INDEXES
         index_name = cls._index._name
 

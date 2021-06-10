@@ -8,9 +8,9 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for _ in range(120):
+            for _ in range(12):
                 create_people()
-                print(_)
+                # print(_)
             print('Populate success')
         except Exception as e:
             print(f'Error: \n\n{e}')
