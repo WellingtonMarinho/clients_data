@@ -41,9 +41,10 @@ class People(BaseModel):
 
 
 @receiver(signals.post_save, sender=People)
-@on_transaction_commit
+# @on_transaction_commit
 def people_index(sender, instance, created, **kwargs):
-    from elasticsearch.document import PeopleDocument
+    pass
+    # from elasticsearch.document import PeopleDocument
 
-    try:
-        with Elasti
+    # try:
+    #     with Elasti
