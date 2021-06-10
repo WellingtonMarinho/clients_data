@@ -80,7 +80,7 @@ class PeopleDocument(DocumentBase):
             people_age = 'Young'
         elif instance.age < 60:
             people_age = 'Adult'
-        elif instance >= 60:
+        elif instance.age >= 60:
             people_age = 'Elderly'
 
         return people_age
