@@ -63,9 +63,7 @@ def on_transaction_commit(func):
 @on_transaction_commit
 def people_index(sender, instance, created, **kwargs):
 
-    print('#'* 250)
-    print('ENTROU NO people_index')
-    print('#'* 250)
+    print(f'Indexing:: {instance.pk} - {instance.name}')
 
     from .document import PeopleDocument
 
@@ -75,6 +73,3 @@ def people_index(sender, instance, created, **kwargs):
             document and document.save()
     except Exception as e:
         print(f'Erro ao indexar dado: \n\nErro: {e}')
-
-    # try:
-    #     with Elasti

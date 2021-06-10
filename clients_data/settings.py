@@ -159,7 +159,7 @@ PROJECT_INDEX_PEOPLE = config('PROJECT_INDEX_PEOPLE', 'index.peoples')
 
 ES_INDEXES = {
     config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): [
-        (PROJECT_INDEX_PEOPLE, 'elasticsearch.document')
+        (PROJECT_INDEX_PEOPLE, 'clients.document.PeopleDocument')
     ]
 }
 

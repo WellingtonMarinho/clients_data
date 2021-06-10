@@ -57,7 +57,7 @@ class Command(BaseCommand):
         self.age = options.get('age')
 
         indexes = self.get_indexes(index)
-
+        print(indexes)
         for index in indexes:
             print(f':: Indexing {index.get("index_name")}')
             if clear_index:
