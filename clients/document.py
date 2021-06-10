@@ -15,7 +15,7 @@ class PeopleDocument(DocumentBase):
     age = Integer()
     cpf = Keyword()
     rg = Keyword()
-    birth_day = DateRange()
+    birth_date = DateRange()
     sex = Keyword()
     sign = Keyword()
     mother_name = Text(analyzer=brazilian_text_analyzer)
@@ -59,7 +59,7 @@ class PeopleDocument(DocumentBase):
                 people_age=people_age,
                 cpf=instance.cpf,
                 rg=instance.rg,
-                birth_day=instance.birth_day,
+                birth_date=instance.birth_date,
                 sex=instance.sex,
                 sign=instance.sign,
                 mother_name=instance.mother_name,
@@ -89,4 +89,8 @@ class PeopleDocument(DocumentBase):
 class PeopleSearch(FacetedSearch):
     index = PeopleDocument.Index.name
     doc_types = [PeopleDocument,]
-    fields = ['name_keyword^100', 'name^10', ]
+    fields = ['name_keyword^100', 'name^10']
+
+    facets = {
+        'age': TermsFacet(field='people_age')
+    }

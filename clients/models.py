@@ -71,7 +71,7 @@ def people_index(sender, instance, created, **kwargs):
 
     try:
         with ElasticSearchConnection(PeopleDocument):
-            document = PeopleDocument.build_document(instances=instance)
+            document = PeopleDocument.build_document(instance=instance)
             document and document.save()
     except Exception as e:
         print(f'Erro ao indexar dado: \n\nErro: {e}')
