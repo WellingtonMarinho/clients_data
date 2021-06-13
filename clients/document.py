@@ -15,7 +15,7 @@ class PeopleDocument(DocumentBase):
     age = Integer()
     cpf = Keyword()
     rg = Keyword()
-    birth_date = DateRange()
+    # birth_date = Text()
     sex = Keyword()
     sign = Keyword()
     mother_name = Text(analyzer=brazilian_text_analyzer)
@@ -59,7 +59,7 @@ class PeopleDocument(DocumentBase):
                 people_age=people_age,
                 cpf=instance.cpf,
                 rg=instance.rg,
-                birth_date=instance.birth_date,
+                # birth_date=instance.birth_date,
                 sex=instance.sex,
                 sign=instance.sign,
                 mother_name=instance.mother_name,

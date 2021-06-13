@@ -9,8 +9,6 @@ def sex_and_age():
     age = randint(18, 80)
     return sex, age
 
-
-
 def parser_birth_date(date):
     return '-'.join(list(reversed(date.split('/'))))
 

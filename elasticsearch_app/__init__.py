@@ -41,20 +41,28 @@ class DocumentBase(es.Document):
         # connections = {'hosts': 'http://localhost:9200'}
         indexes = settings.ES_INDEXES
         index_name = cls._index._name
-
         for name, conn in connections.items():
             # gets name and connection value
             # default, {'hosts': 'localhost'}
+
             for index, value in indexes.get(name):
                 # get indexes in that connection by name
+
                 if index == index_name:
                     # return the desired index
-                    return {
+
+                    response = {
                         'connection_name': name,
                         'connection': conn,
                         'index_name': index,
                         'index_class': value,
                     }
+                    print('#' * 355)
+
+                    print(response)
+                    print('#' * 355)
+
+                    return response
         return None
 
     @classmethod
@@ -181,7 +189,7 @@ class DocumentBase(es.Document):
     @classmethod
     def remove_stale(cls, base_qset, batch_size):
         """
-        Removes docuemts that are present in the index but not in the db.
+        Removes documents that are present in the index but not in the db.
         Index meta id and db instance pk needs to be same.
         """
         db_ids = list(base_qset.values_list('id', flat=True))
@@ -229,4 +237,3 @@ class ElasticSearchConnection():
 
     def __exit__(self, type, value, traceback):
         connections.remove_connection(self.index['connection_name'])
-

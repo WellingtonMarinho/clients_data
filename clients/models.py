@@ -70,6 +70,7 @@ def people_index(sender, instance, created, **kwargs):
     try:
         with ElasticSearchConnection(PeopleDocument):
             document = PeopleDocument.build_document(instance=instance)
+            print(f'DOCUMENT:::-> {document}')
             document and document.save()
             print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
 

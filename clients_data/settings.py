@@ -146,8 +146,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# ELASCTISEARCH CONFIG
-
+# ELASTICSEARCH SETTINGS
 
 ES_CONNECTIONS = {
     config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): {
