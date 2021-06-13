@@ -25,6 +25,7 @@ class ModelsPeopleTest(TestCase):
 
     def test_str(self):
         self.assertEqual(str(self.people), 'José Joaquim Rafael Baptista')
+
     def test_create(self):
         self.assertTrue(People.objects.exists())
         self.assertEqual(1, People.objects.count())
@@ -42,30 +43,3 @@ class ModelsPeopleTest(TestCase):
             with self.subTest():
                 self.people.age = age
                 self.assertEqual(self.people.age_group, expected)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

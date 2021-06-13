@@ -66,17 +66,3 @@ class SerializerPeopleCreateTest(TestCase):
         for name in names:
             with self.subTest():
                 self.assertEqual(self.serializer.validate_name(name), expected)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
