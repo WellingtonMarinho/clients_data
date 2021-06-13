@@ -56,7 +56,7 @@ class PeopleDocument(DocumentBase):
                 name=instance.name,
                 name_keyword=instance.name,
                 age=instance.age,
-                people_age=people_age,
+                # people_age=people_age,
                 cpf=instance.cpf,
                 rg=instance.rg,
                 # birth_date=instance.birth_date,
@@ -90,8 +90,8 @@ class PeopleDocument(DocumentBase):
 class PeopleSearch(FacetedSearch):
     index = PeopleDocument.Index.name
     doc_types = [PeopleDocument,]
-    fields = ['name_keyword^100', 'name^10']
+    # fields = ['name_keyword^100', 'name^10']
 
     facets = {
-        'age': TermsFacet(field='people_age')
+        'age': TermsFacet(field='people_age'),
     }

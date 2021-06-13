@@ -1,5 +1,6 @@
 """
-Based on: https://medium.com/@harshvb7/managing-elasticsearch-in-django-like-a-pro-adfcd984920d
+Based on:
+https://medium.com/@harshvb7/managing-elasticsearch-in-django-like-a-pro-adfcd984920d
 """
 
 import datetime
