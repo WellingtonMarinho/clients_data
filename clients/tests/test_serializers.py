@@ -60,8 +60,12 @@ class SerializerPeopleCreateTest(TestCase):
             with self.subTest():
                 self.assertTrue(self.serializer.validate_cpf(cpf))
 
-
-
+    def test_validate_name(self):
+        names = ['wellington marinho soares', 'WELLINGTON MARINHO SOARES', 'weLLINGton maRINho soAREs']
+        expected = 'Wellington Marinho Soares'
+        for name in names:
+            with self.subTest():
+                self.assertEqual(self.serializer.validate_name(name), expected)
 
 
 
