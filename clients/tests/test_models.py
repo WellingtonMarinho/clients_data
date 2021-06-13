@@ -5,7 +5,7 @@ from clients.models import People
 
 class ModelsPeopleTest(TestCase):
     def setUp(self):
-        people = People.objects.create(
+        self.people = People.objects.create(
             name='José Joaquim Rafael Baptista',
             age=33,
             cpf='164.401.906-01',
@@ -22,3 +22,50 @@ class ModelsPeopleTest(TestCase):
             type_blood='B-',
             favorite_color='preto'
         )
+
+    def test_str(self):
+        self.assertEqual(str(self.people), 'José Joaquim Rafael Baptista')
+    def test_create(self):
+        self.assertTrue(People.objects.exists())
+        self.assertEqual(1, People.objects.count())
+
+    def test_age_group(self):
+        contents = [
+            (19, 'Young'),
+            (20, 'Young'),
+            (26, 'Adult'),
+            (64, 'Adult'),
+            (66, 'Elderly'),
+            (70, 'Elderly'),
+        ]
+        for age, expected in contents:
+            with self.subTest():
+                self.people.age = age
+                self.assertEqual(self.people.age_group, expected)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

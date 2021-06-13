@@ -20,6 +20,7 @@ class PeopleSerializer(serializers.ModelSerializer):
             'cpf',
             'rg',
             'birth_date',
+            'age_group',
             'sex',
             'sign',
             'mother_name',
@@ -29,8 +30,9 @@ class PeopleSerializer(serializers.ModelSerializer):
             'mobile',
             'height',
             'weight',
+            'imc',
             'type_blood',
-            'favorite_color'
+            'favorite_color',
         ]
 
     def validate_name(self, obj):

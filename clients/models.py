@@ -45,13 +45,18 @@ class People(BaseModel):
         return self.name
 
     @property
+    def imc(self):
+        return f'{self.weight / (self.height * self.height):.2f}'
+
+    @property
     def age_group(self):
         value = None
-        if self.age < 21:
+        age = int(self.age)
+        if age <= 21:
             value = 'Young'
-        elif self.age < 65:
+        elif age < 65:
             value = 'Adult'
-        elif self.age >= 65:
+        elif age >= 65:
             value = 'Elderly'
         return value
 
