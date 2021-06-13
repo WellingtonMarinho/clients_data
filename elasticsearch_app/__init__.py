@@ -57,11 +57,6 @@ class DocumentBase(es.Document):
                         'index_name': index,
                         'index_class': value,
                     }
-                    print('#' * 355)
-
-                    print(response)
-                    print('#' * 355)
-
                     return response
         return None
 
@@ -82,8 +77,8 @@ class DocumentBase(es.Document):
         try:
             index_instance = es.Index(index['index_name'])
             index_instance.delete()
-        except Exception:
-            pass
+        except Exception as e:
+            raise Exception(f'Error in index_instance, lines 78 and 79. \n\n Traceback: {e}')
         connections.remove_connection(index['connection_name'])
 
     @classmethod
