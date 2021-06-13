@@ -10,53 +10,7 @@ from .models import People
 from .serializers import PeopleSerializer
 
 
-class PeopleView(generics.ListAPIView):
+class PeopleView(generics.ListCreateAPIView):
     queryset = People.objects.all()
     serializer_class = PeopleSerializer
 
-class SearchPeopleView(APIView):
-
-    def get(self, request, query):
-
-        with ElasticSearchConnection(PeopleDocument):
-            qs = PeopleSearch(query,
-
-                              )
-            response = qs.execute()
-
-        paginator = DSEPaginator(response, 25)
-        queryset = paginator.page(1)
-
-        # json = dumps(response[1])
-
-
-        print()
-        print()
-        print(queryset)
-        print()
-        print(dir(queryset))
-        print()
-        print(queryset.__dict__)
-        print()
-        # print(dir(response))
-        # print()
-        # print()
-        # print(response.facets)
-        # print()
-        # print()
-        # print(response[1].name)
-        # print()
-        # print()
-        # print(dir(response[1]))
-        # print()
-        # print()
-        # print(type(response[1]))
-        # print('#-#'*255)
-        # print(json)
-        # print('#-#'*255)
-
-        print()
-        print()
-        print()
-        print()
-        return Response(queryset)
