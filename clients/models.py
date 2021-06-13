@@ -44,6 +44,16 @@ class People(BaseModel):
     def __str__(self):
         return self.name
 
+    @property
+    def age_group(self):
+        value = None
+        if self.age < 21:
+            value = 'Young'
+        elif self.age < 65:
+            value = 'Adult'
+        elif self.age >= 65:
+            value = 'Elderly'
+        return value
 
 def on_transaction_commit(func):
     """
