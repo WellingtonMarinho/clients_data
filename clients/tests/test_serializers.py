@@ -48,7 +48,7 @@ class SerializerPeopleCreateTest(TestCase):
                 'favorite_color'
             ]))
 
-    def test_validate_cpf_returns_false(self):
+    def test_validate_cpf_raise_exception(self):
         falses_cpfs = ['789.416.310-99', '361.587.820-06', 'asadhfpad']
         for cpf in falses_cpfs:
             with self.subTest():
@@ -59,6 +59,18 @@ class SerializerPeopleCreateTest(TestCase):
         for cpf in cpfs:
             with self.subTest():
                 self.assertTrue(self.serializer.validate_cpf(cpf))
+
+    def test_validate_rg_returns_false(self):
+        false_rgs = ['12.280.322-6', '71.356.879-4', '28.910.235-8', '43.687.796-7']
+        for rg in false_rgs:
+            with self.subTest():
+                self.assertRaises(ValidationError, self.serializer.validate_rg, rg)
+
+    def test_validate_rg_retuns_true(self):
+        rgs = ['42.662.620-5', '32.240.472-1', '14.007.985-3', '15.519.735-6']
+        for rg in rgs:
+            with self.subTest():
+                self.assertTrue(self.serializer.validate_rg(rg))
 
     def test_validate_name(self):
         names = ['wellington marinho soares', 'WELLINGTON MARINHO SOARES', 'weLLINGton maRINho soAREs']

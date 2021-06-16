@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 from .models import People
-from fordev.validators import is_valid_cpf
+from fordev.validators import is_valid_cpf, is_valid_rg
 
 
 class PeopleSerializer(serializers.ModelSerializer):
@@ -9,6 +9,7 @@ class PeopleSerializer(serializers.ModelSerializer):
         model = People
         fields = [
             'name',
+            'slug',
             'age',
             'cpf',
             'rg',
@@ -33,7 +34,12 @@ class PeopleSerializer(serializers.ModelSerializer):
             raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
         return obj.title()
 
-    def validate_cpf(self, obj):
-        if is_valid_cpf(obj):
-            return obj
+    def validate_cpf(self, cpf):
+        if is_valid_cpf(cpf):
+            return cpf
         raise ValidationError('CPF não é válido.')
+
+    def validate_rg(self, rg):
+        if is_valid_rg(rg):
+            return rg
+        raise ValidationError('RG não é válido.')

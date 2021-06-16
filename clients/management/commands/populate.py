@@ -10,7 +10,7 @@ class Command(BaseCommand):
         try:
             for _ in range(2000):
                 create_people()
-                # print(_)
+                print(f'Create object number {_}')
             print('Populate success')
         except Exception as e:
             print(f'Error ao popular banco de dados: \n\n{e}')

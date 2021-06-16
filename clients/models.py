@@ -1,5 +1,6 @@
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
+from django_extensions.db.fields import AutoSlugField
 from django.db.models import signals
 from django.dispatch import receiver
 
@@ -18,16 +19,30 @@ class People(BaseModel):
     SEX = (
         ('Feminino', 'Feminino'),
         ('Masculino', 'Masculino'),
-        # ('f', _('Female')),
-        # ('m', _('Male'))
+
+    )
+    SIGN = (
+        ('Áries', 'Áries'),
+        ('Touro', 'Touro'),
+        ('Gêmeos', 'Gêmeos'),
+        ('Câncer', 'Câncer'),
+        ('Leão', 'Leão'),
+        ('Virgem', 'Virgem'),
+        ('Libra', 'Libra'),
+        ('Escorpião', 'Escorpião'),
+        ('Sagitário', 'Sagitário'),
+        ('Capricórnio', 'Capricórnio'),
+        ('Aquário', 'Aquário'),
+        ('Peixes', 'Peixes'),
     )
     name = models.CharField(_('Name'), max_length=255)
     age = models.IntegerField(_('age'))
     cpf = models.CharField('CPF', max_length=14)
     rg = models.CharField('RG', max_length=12)
     birth_date = models.DateField(_('Birth date'))
+    slug = AutoSlugField(populate_from='name', unique=True)
     sex = models.CharField(_('Sex'), choices=SEX, max_length=9)
-    sign = models.CharField(max_length=15)
+    sign = models.CharField(_('Sign'), max_length=15, choices=SIGN)
     mother_name = models.CharField(_('Mother Name'), max_length=255)
     father_name = models.CharField(_('Father Name'), max_length=250)
     email = models.EmailField('Email')
@@ -77,20 +92,20 @@ def on_transaction_commit(func):
     return inner
 
 
-@receiver(signals.post_save, sender=People)
-@on_transaction_commit
-def people_index(sender, instance, created, **kwargs):
-
-    print(f'Try indexing:: {instance.pk} - {instance.name}')
-
-    from .document import PeopleDocument
-
-    try:
-        with ElasticSearchConnection(PeopleDocument):
-            document = PeopleDocument.build_document(instance=instance)
-            print(f'DOCUMENT:::-> {document}')
-            document and document.save()
-            print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
-
-    except Exception as e:
-        print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
+# @receiver(signals.post_save, sender=People)
+# @on_transaction_commit
+# def people_index(sender, instance, created, **kwargs):
+#
+#     print(f'Try indexing:: {instance.pk} - {instance.name}')
+#
+#     from .document import PeopleDocument
+#
+#     try:
+#         with ElasticSearchConnection(PeopleDocument):
+#             document = PeopleDocument.build_document(instance=instance)
+#             print(f'DOCUMENT:::-> {document}')
+#             document and document.save()
+#             print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
+#
+#     except Exception as e:
+#         print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')

@@ -43,3 +43,25 @@ class ModelsPeopleTest(TestCase):
             with self.subTest():
                 self.people.age = age
                 self.assertEqual(self.people.age_group, expected)
+
+    def test_imc_property(self):
+        imc = self.people.imc
+        expected = f'{self.people.weight / (self.people.height * self.people.height):.2f}'
+        self.assertEqual(imc, expected)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
