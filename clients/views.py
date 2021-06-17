@@ -16,6 +16,7 @@ class PeopleView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'sign']
 
+
 class SearchPeopleView(APIView):
 
     def get(self, request, query):
