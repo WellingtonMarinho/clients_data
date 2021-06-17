@@ -1,7 +1,7 @@
 from django.conf import settings
 from elasticsearch_dsl import (Document, FacetedSearch, Integer,
                                Keyword, Text,DateRange,
-                               Search, TermsFacet, Long )
+                               Search, TermsFacet, Long, Date)
 from .models import People
 
 from elasticsearch_app.analyzers import brazilian_text_analyzer
@@ -15,7 +15,8 @@ class PeopleDocument(DocumentBase):
     age = Integer()
     cpf = Keyword()
     rg = Keyword()
-    # birth_date = Text()
+    birth_date = Date()
+    slug = Keyword()
     sex = Keyword()
     sign = Keyword()
     mother_name = Text(analyzer=brazilian_text_analyzer)
@@ -56,10 +57,11 @@ class PeopleDocument(DocumentBase):
                 name=instance.name,
                 name_keyword=instance.name,
                 age=instance.age,
-                # people_age=people_age,
+                people_age=people_age,
+                slug=instance.slug,
                 cpf=instance.cpf,
                 rg=instance.rg,
-                # birth_date=instance.birth_date,
+                birth_date=instance.birth_date,
                 sex=instance.sex,
                 sign=instance.sign,
                 mother_name=instance.mother_name,

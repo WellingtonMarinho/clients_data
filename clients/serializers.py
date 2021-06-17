@@ -12,8 +12,8 @@ class PeopleSerializer(serializers.ModelSerializer):
             'age',
             'cpf',
             'rg',
-            'birth_date',
             'slug',
+            'birth_date',
             'age_group',
             'sex',
             'sign',
@@ -46,20 +46,23 @@ class PeopleSerializer(serializers.ModelSerializer):
 
 
 class PeopleSearchSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField(max_length=255)
     age = serializers.IntegerField()
     cpf = serializers.CharField(max_length=14)
     rg = serializers.CharField(max_length=12)
-    # birth_date = serializers.DateField()
-    # slug = serializers.SlugField()
-    # sex = serializers.CharField(max_length=9)
-    # sign = serializers.CharField(max_length=15)
-    # mother_name = serializers.CharField(max_length=255)
-    # father_name = serializers.CharField(max_length=250)
-    # email = serializers.EmailField()
-    # telefone_number = serializers.CharField(max_length=20)
-    # mobile = serializers.CharField(max_length=20)
-    # height = serializers.FloatField()
-    # weight = serializers.IntegerField()
-    # type_blood = serializers.CharField(max_length=3)
-    # favorite_color = serializers.CharField(max_length=20)
+    slug = serializers.SlugField()
+    birth_date = serializers.DateField()
+    age_group = serializers.CharField()
+    sex = serializers.CharField(max_length=9)
+    sign = serializers.CharField(max_length=15)
+    mother_name = serializers.CharField(max_length=255)
+    father_name = serializers.CharField(max_length=250)
+    email = serializers.EmailField()
+    telefone_number = serializers.CharField(max_length=20)
+    mobile = serializers.CharField(max_length=20)
+    height = serializers.FloatField()
+    weight = serializers.IntegerField()
+    imc = serializers.FloatField()
+    type_blood = serializers.CharField(max_length=3)
+    favorite_color = serializers.CharField(max_length=20)
