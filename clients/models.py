@@ -92,20 +92,20 @@ def on_transaction_commit(func):
     return inner
 
 
-# @receiver(signals.post_save, sender=People)
-# @on_transaction_commit
-# def people_index(sender, instance, created, **kwargs):
-#
-#     print(f'Try indexing:: {instance.pk} - {instance.name}')
-#
-#     from .document import PeopleDocument
-#
-#     try:
-#         with ElasticSearchConnection(PeopleDocument):
-#             document = PeopleDocument.build_document(instance=instance)
-#             print(f'DOCUMENT:::-> {document}')
-#             document and document.save()
-#             print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
-#
-#     except Exception as e:
-#         print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
+@receiver(signals.post_save, sender=People)
+@on_transaction_commit
+def people_index(sender, instance, created, **kwargs):
+
+    print(f'Try indexing:: {instance.pk} - {instance.name}')
+
+    from .document import PeopleDocument
+
+    try:
+        with ElasticSearchConnection(PeopleDocument):
+            document = PeopleDocument.build_document(instance=instance)
+            print(f'DOCUMENT:::-> {document}')
+            document and document.save()
+            print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
+
+    except Exception as e:
+        print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')

@@ -9,11 +9,11 @@ class PeopleSerializer(serializers.ModelSerializer):
         model = People
         fields = [
             'name',
-            'slug',
             'age',
             'cpf',
             'rg',
             'birth_date',
+            'slug',
             'age_group',
             'sex',
             'sign',
@@ -43,3 +43,23 @@ class PeopleSerializer(serializers.ModelSerializer):
         if is_valid_rg(rg):
             return rg
         raise ValidationError('RG não é válido.')
+
+
+class PeopleSearchSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    age = serializers.IntegerField()
+    cpf = serializers.CharField(max_length=14)
+    rg = serializers.CharField(max_length=12)
+    # birth_date = serializers.DateField()
+    # slug = serializers.SlugField()
+    # sex = serializers.CharField(max_length=9)
+    # sign = serializers.CharField(max_length=15)
+    # mother_name = serializers.CharField(max_length=255)
+    # father_name = serializers.CharField(max_length=250)
+    # email = serializers.EmailField()
+    # telefone_number = serializers.CharField(max_length=20)
+    # mobile = serializers.CharField(max_length=20)
+    # height = serializers.FloatField()
+    # weight = serializers.IntegerField()
+    # type_blood = serializers.CharField(max_length=3)
+    # favorite_color = serializers.CharField(max_length=20)

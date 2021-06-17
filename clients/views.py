@@ -6,7 +6,7 @@ from elasticsearch_app import ElasticSearchConnection
 from elasticsearch_app.paginator import DSEPaginator
 from .document import PeopleSearch, PeopleDocument
 from .models import People
-from .serializers import PeopleSerializer
+from .serializers import PeopleSerializer, PeopleSearchSerializer
 
 
 class PeopleView(generics.ListAPIView):
@@ -25,39 +25,12 @@ class SearchPeopleView(APIView):
             qs = PeopleSearch(query)
             response = qs.execute()
 
-        paginator = DSEPaginator(response, 25)
-        queryset = paginator.page(1)
+        data = [{
+            'name': people.name,
+            'age':people.age,
+            'cpf':people.cpf,
+            'rg':people.rg,
+                 } for people in response]
+        serializer = PeopleSearchSerializer(data[0])
 
-        # json = dumps(response[1])
-
-
-        print()
-        print()
-        print(queryset)
-        print()
-        print(dir(queryset))
-        print()
-        print(queryset.__dict__)
-        print()
-        # print(dir(response))
-        # print()
-        # print()
-        # print(response.facets)
-        # print()
-        # print()
-        # print(response[1].name)
-        # print()
-        # print()
-        # print(dir(response[1]))
-        # print()
-        # print()
-        # print(type(response[1]))
-        # print('#-#'*255)
-        # print(json)
-        # print('#-#'*255)
-
-        print()
-        print()
-        print()
-        print()
-        return Response(queryset)
+        return Response(serializer.data)
