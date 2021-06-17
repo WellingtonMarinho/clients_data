@@ -18,7 +18,7 @@ class PeopleDocument(DocumentBase):
     birth_date = Date()
     people_age = Keyword()
     slug = Keyword()
-    sex = Keyword()
+    sex = Keyword(fielddata=True)
     sign = Keyword()
     mother_name = Text(analyzer=brazilian_text_analyzer)
     father_name = Text(analyzer=brazilian_text_analyzer)
@@ -51,7 +51,7 @@ class PeopleDocument(DocumentBase):
         """
 
         if instance.name:
-            # people_age = cls._define_people_age(instance)
+            search_boost = cls._search_boost(instance)
             document = PeopleDocument(
                 _id=instance.pk,
                 id=instance.pk,
@@ -74,28 +74,29 @@ class PeopleDocument(DocumentBase):
                 weight=instance.weight,
                 imc=instance.imc,
                 type_blood=instance.type_blood,
-                favorite_color=instance.favorite_color
+                favorite_color=instance.favorite_color,
+                search_boost=search_boost,
             )
             return document
 
-    # @classmethod
-    # def _define_people_age(cls, instance):
-    #     people_age = None
-    #     if instance.age < 25:
-    #         people_age = 'Young'
-    #     elif instance.age < 60:
-    #         people_age = 'Adult'
-    #     elif instance.age >= 60:
-    #         people_age = 'Elderly'
-    #
-    #     return people_age
+    @classmethod
+    def _search_boost(cls, instance):
+        return 100 + instance.age
+        #
+        # if instance.age < 60:
+        #     value *= 1.10
+        # elif instance.age >= 60:
+        #     value *= 1.25
+
+        # return value
 
 
 class PeopleSearch(FacetedSearch):
     index = PeopleDocument.Index.name
     doc_types = [PeopleDocument,]
-    # fields = ['name_keyword^100', 'name^10']
+    fields = ['name_keyword^100', 'name^10', 'sign']
 
     facets = {
-        # 'age': TermsFacet(field='people_age'),
+        'age': TermsFacet(field='people_age'),
+        # 'sex': TermsFacet(field='sex'),
     }

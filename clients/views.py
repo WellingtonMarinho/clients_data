@@ -33,11 +33,15 @@ class SearchPeopleView(APIView):
     def get(self, request, query):
 
         with ElasticSearchConnection(PeopleDocument):
-            qs = PeopleSearch(query)
+            qs = PeopleSearch(
+                query,
+                sort=['-search_boost']
+            )
             response = qs.execute()
 
         data = [{
             'id': people.id,
+            'search_boost': people.search_boost,
             'name': people.name,
             'age':people.age,
             'cpf':people.cpf,

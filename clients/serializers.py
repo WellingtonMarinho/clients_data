@@ -47,12 +47,13 @@ class PeopleSerializer(serializers.ModelSerializer):
 
 class PeopleSearchSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    search_boost = serializers.CharField()
     name = serializers.CharField(max_length=255)
     age = serializers.IntegerField()
     cpf = serializers.CharField(max_length=14)
     rg = serializers.CharField(max_length=12)
     slug = serializers.SlugField()
-    birth_date = serializers.DateField(read_only=True)
+    birth_date = serializers.DateTimeField()
     age_group = serializers.CharField()
     sex = serializers.CharField(max_length=9)
     sign = serializers.CharField(max_length=15)
