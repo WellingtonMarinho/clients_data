@@ -52,7 +52,7 @@ class PeopleSearchSerializer(serializers.Serializer):
     cpf = serializers.CharField(max_length=14)
     rg = serializers.CharField(max_length=12)
     slug = serializers.SlugField()
-    birth_date = serializers.DateField()
+    birth_date = serializers.DateField(read_only=True)
     age_group = serializers.CharField()
     sex = serializers.CharField(max_length=9)
     sign = serializers.CharField(max_length=15)

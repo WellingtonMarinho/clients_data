@@ -41,6 +41,7 @@ class SearchPeopleView(APIView):
             'name': people.name,
             'age':people.age,
             'cpf':people.cpf,
+            'rg': people.rg,
             'slug':people.slug,
             'birth_date':people.birth_date,
             'age_group':people.age_group,

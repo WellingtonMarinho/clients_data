@@ -16,6 +16,7 @@ class PeopleDocument(DocumentBase):
     cpf = Keyword()
     rg = Keyword()
     birth_date = Date()
+    people_age = Keyword()
     slug = Keyword()
     sex = Keyword()
     sign = Keyword()
@@ -50,14 +51,14 @@ class PeopleDocument(DocumentBase):
         """
 
         if instance.name:
-            people_age = cls._define_people_age(instance)
+            # people_age = cls._define_people_age(instance)
             document = PeopleDocument(
                 _id=instance.pk,
                 id=instance.pk,
                 name=instance.name,
                 name_keyword=instance.name,
                 age=instance.age,
-                people_age=people_age,
+                age_group=instance.age_group,
                 slug=instance.slug,
                 cpf=instance.cpf,
                 rg=instance.rg,
@@ -67,26 +68,27 @@ class PeopleDocument(DocumentBase):
                 mother_name=instance.mother_name,
                 father_name=instance.father_name,
                 email=instance.email,
-                phone_number=instance.telefone_number,
+                telefone_number=instance.telefone_number,
                 mobile=instance.mobile,
                 height=instance.height,
                 weight=instance.weight,
+                imc=instance.imc,
                 type_blood=instance.type_blood,
                 favorite_color=instance.favorite_color
             )
             return document
 
-    @classmethod
-    def _define_people_age(cls, instance):
-        people_age = None
-        if instance.age < 25:
-            people_age = 'Young'
-        elif instance.age < 60:
-            people_age = 'Adult'
-        elif instance.age >= 60:
-            people_age = 'Elderly'
-
-        return people_age
+    # @classmethod
+    # def _define_people_age(cls, instance):
+    #     people_age = None
+    #     if instance.age < 25:
+    #         people_age = 'Young'
+    #     elif instance.age < 60:
+    #         people_age = 'Adult'
+    #     elif instance.age >= 60:
+    #         people_age = 'Elderly'
+    #
+    #     return people_age
 
 
 class PeopleSearch(FacetedSearch):
@@ -95,5 +97,5 @@ class PeopleSearch(FacetedSearch):
     # fields = ['name_keyword^100', 'name^10']
 
     facets = {
-        'age': TermsFacet(field='people_age'),
+        # 'age': TermsFacet(field='people_age'),
     }
