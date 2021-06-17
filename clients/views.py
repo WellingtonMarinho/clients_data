@@ -35,7 +35,7 @@ class SearchPeopleView(APIView):
         with ElasticSearchConnection(PeopleDocument):
             qs = PeopleSearch(
                 query,
-                sort=['-search_boost']
+                sort=['_score', '-search_boost']
             )
             response = qs.execute()
 
