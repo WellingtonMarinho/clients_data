@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for _ in range(2000):
+            for _ in range(50000):
                 create_people()
                 print(f'Create object number {_}')
             print('Populate success')

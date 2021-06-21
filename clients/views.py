@@ -9,29 +9,30 @@ from .models import People
 from .serializers import PeopleSerializer, PeopleSearchSerializer
 
 #
-# class PeopleView(generics.ListAPIView):
-#     queryset = People.objects.all()
-#     serializer_class = PeopleSerializer
-#     # filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-#     filter_backends = [filters.SearchFilter]
-#     search_fields = ['name', 'sign']
-
-class PeopleView(APIView):
-
-    def get(self, request):
-        peoples = People.objects.all()
-        print(peoples)
-        print()
-        print()
-        serializer = PeopleSerializer(peoples, many=True)
-        return Response(serializer.data)
-
-
+class PeopleView(generics.ListAPIView):
+    queryset = People.objects.all()
+    serializer_class = PeopleSerializer
+    # filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'sign']
 
 class SearchPeopleView(APIView):
 
     def get(self, request, query):
+        peoples = People.objects.filter(name__icontains=query)
+        queryset = {
+            'count': peoples.count(),
+            'results': peoples
+        }
+        serializer = PeopleSerializer(peoples, many=True)
+        # serializer = PeopleSerializer(queryset, many=True)
+        return Response(serializer.data)
+#
 
+
+class ElasticSearchSearchPeopleView(APIView):
+
+    def get(self, request, query):
         with ElasticSearchConnection(PeopleDocument):
             qs = PeopleSearch(
                 query,
@@ -39,7 +40,7 @@ class SearchPeopleView(APIView):
             )
             response = qs.execute()
 
-        data = [{
+        queryset = [{
             'id': people.id,
             'search_boost': people.search_boost,
             'name': people.name,
@@ -62,8 +63,12 @@ class SearchPeopleView(APIView):
             'type_blood':people.type_blood,
             'favorite_color':people.favorite_color,
                  } for people in response]
+        #
+        # queryset = {
+        #     'count': len(queryset),
+        #     'results': queryset
+        # }
 
-
-        serializer = PeopleSearchSerializer(data, many=True)
+        serializer = PeopleSearchSerializer(queryset, many=True)
 
         return Response(serializer.data)

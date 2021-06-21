@@ -44,7 +44,7 @@ services:
           - .:/app
         container_name: django_app
         depends_on:
-            - db
+            - database
         networks:
           - network_local
 
