@@ -2,11 +2,11 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 
-from clients.views import ElasticSearchSearchPeopleView
+from clients.views import ElasticSearchPeopleView
 
 urlpatterns = [
     # path('', PeopleView.as_view(), name='list-people'),
-    path('', ElasticSearchSearchPeopleView.as_view(), name='search'),
+    path('', ElasticSearchPeopleView.as_view(), name='search'),
     # path('postgres/<str:query>/', ElasticSearchSearchPeopleView.as_view(), name='search'),
 
 

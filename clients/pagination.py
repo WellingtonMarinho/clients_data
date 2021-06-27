@@ -4,7 +4,8 @@ from rest_framework.pagination import PageNumberPagination
 class BasicPagination(PageNumberPagination):
     page_size = 5
     page_size_query_param = 'limit'
-    max_page_size = 50
+    max_page_size = 100
+
 
 
 class PaginationHandlerMixin(object):

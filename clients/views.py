@@ -12,16 +12,18 @@ class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
 
     def get(self, request):
         q = request.GET.get('q')
+        page = int(request.GET.get('page', '1'))
+        per_search = self.pagination_class.max_page_size
+
+        start = (page-1) * per_search
+        end = start + per_search
 
         with ElasticSearchConnection(PeopleDocument):
             qs = PeopleSearch(q,
                 sort=['_score', '-search_boost']
             )
-            response = qs.execute()
-            print('#-#'*155)
-            print(response)
-            print(len(response))
-            print('#-#'*155)
+
+            response = qs[start:end].execute()
 
         page = self.paginate_queryset(response)
 
