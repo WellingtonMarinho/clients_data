@@ -1,74 +1,33 @@
-import django_filters.rest_framework
-from rest_framework import generics, filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from elasticsearch_app import ElasticSearchConnection
-from elasticsearch_app.paginator import DSEPaginator
 from .document import PeopleSearch, PeopleDocument
-from .models import People
-from .serializers import PeopleSerializer, PeopleSearchSerializer
-
-#
-class PeopleView(generics.ListAPIView):
-    queryset = People.objects.all()
-    serializer_class = PeopleSerializer
-    # filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'sign']
-
-class SearchPeopleView(APIView):
-
-    def get(self, request, query):
-        peoples = People.objects.filter(name__icontains=query)
-        queryset = {
-            'count': peoples.count(),
-            'results': peoples
-        }
-        serializer = PeopleSerializer(peoples, many=True)
-        # serializer = PeopleSerializer(queryset, many=True)
-        return Response(serializer.data)
-#
+from .serializers import PeopleSearchSerializer
+from .pagination import BasicPagination, PaginationHandlerMixin
 
 
-class ElasticSearchSearchPeopleView(APIView):
+class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
+    serializer_class = PeopleSearchSerializer
+    pagination_class = BasicPagination
 
-    def get(self, request, query):
+    def get(self, request):
+        q = request.GET.get('q')
+
         with ElasticSearchConnection(PeopleDocument):
-            qs = PeopleSearch(
-                query,
+            qs = PeopleSearch(q,
                 sort=['_score', '-search_boost']
             )
             response = qs.execute()
+            print('#-#'*155)
+            print(response)
+            print(len(response))
+            print('#-#'*155)
 
-        queryset = [{
-            'id': people.id,
-            'search_boost': people.search_boost,
-            'name': people.name,
-            'age':people.age,
-            'cpf':people.cpf,
-            'rg': people.rg,
-            'slug':people.slug,
-            'birth_date':people.birth_date,
-            'age_group':people.age_group,
-            'sex':people.sex,
-            'sign':people.sign,
-            'mother_name':people.mother_name,
-            'father_name':people.father_name,
-            'email':people.email,
-            'telefone_number':people.telefone_number,
-            'mobile':people.mobile,
-            'height':people.height,
-            'weight':people.weight,
-            'imc':people.imc,
-            'type_blood':people.type_blood,
-            'favorite_color':people.favorite_color,
-                 } for people in response]
-        #
-        # queryset = {
-        #     'count': len(queryset),
-        #     'results': queryset
-        # }
+        page = self.paginate_queryset(response)
 
-        serializer = PeopleSearchSerializer(queryset, many=True)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = PeopleSearchSerializer(response, many=True)
 
         return Response(serializer.data)
