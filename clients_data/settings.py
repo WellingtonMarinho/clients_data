@@ -28,9 +28,9 @@ SECRET_KEY = 'django-insecure-dhq8q-rj$vd39h^hh4_0*%5p8ul@l2z8m)ghr$w5bz2*y7upe0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'
+ALLOWED_HOSTS = [
     # '127.0.0.1',
-    # 'localhost',
+    'localhost',
 ]
 
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'django_filters',
+    'drf_spectacular',
 
     'elasticsearch_app',
     'clients',
@@ -154,7 +155,9 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 1000
+    'PAGE_SIZE': 1000,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
 }
 
 # ELASTICSEARCH SETTINGS

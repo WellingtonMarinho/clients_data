@@ -7,7 +7,6 @@ class BasicPagination(PageNumberPagination):
     max_page_size = 100
 
 
-
 class PaginationHandlerMixin(object):
     @property
     def paginator(self):

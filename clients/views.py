@@ -9,27 +9,28 @@ from .pagination import BasicPagination, PaginationHandlerMixin
 class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
     serializer_class = PeopleSearchSerializer
     pagination_class = BasicPagination
+    pagination_class.page_size = 20
 
     def get(self, request):
         q = request.GET.get('q')
-        page = int(request.GET.get('page', '1'))
-        per_search = self.pagination_class.max_page_size
 
-        start = (page-1) * per_search
-        end = start + per_search
+        max_results_per_query = int(request.GET.get('limit_per_query', self.pagination_class.max_page_size))
+        start = int(request.GET.get('start', 0))
+        end = int(request.GET.get('end', max_results_per_query))
+        self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
 
         with ElasticSearchConnection(PeopleDocument):
             qs = PeopleSearch(q,
                 sort=['_score', '-search_boost']
             )
 
-            response = qs[start:end].execute()
+            queryset = qs[start:end].execute()
 
-        page = self.paginate_queryset(response)
+        page = self.paginate_queryset(queryset)
 
         if page is not None:
             serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
         else:
-            serializer = PeopleSearchSerializer(response, many=True)
+            serializer = self.serializer_class(queryset, many=True)
 
         return Response(serializer.data)
