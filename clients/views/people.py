@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from elasticsearch_app import ElasticSearchConnection
-from .document import PeopleSearch, PeopleDocument
-from .serializers import PeopleSearchSerializer
-from .pagination import BasicPagination, PaginationHandlerMixin
+from clients.document import PeopleSearch, PeopleDocument
+from clients.serializers import PeopleSearchSerializer
+from clients.utils import BasicPagination, PaginationHandlerMixin
 
 
 class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):

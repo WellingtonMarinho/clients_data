@@ -2,7 +2,7 @@ from django.conf import settings
 from elasticsearch_dsl import (Document, FacetedSearch, Integer,
                                Keyword, Text,DateRange,
                                Search, TermsFacet, Long, Date)
-from .models import People
+from clients.models import People
 
 from elasticsearch_app.analyzers import brazilian_text_analyzer
 from elasticsearch_app import DocumentBase

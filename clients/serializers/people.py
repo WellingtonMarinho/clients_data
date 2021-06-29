@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
-from .models import People
+from clients.models import People
 from fordev.validators import is_valid_cpf, is_valid_rg
 
 
