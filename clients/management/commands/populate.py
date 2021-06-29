@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext_lazy as _
-from clients.generator import PopulateDatabase
+from clients.utils.people_generator import ToPopulateDatabase
 
 
 class Command(BaseCommand):
@@ -10,8 +10,8 @@ class Command(BaseCommand):
         try:
             for _ in range(50000):
                 try:
-                    people = PopulateDatabase()
-                    people.create_people()
+                    people = ToPopulateDatabase()
+                    people.save()
                     print(f'Create object number {_}')
                 except Exception as e:
                     pass
