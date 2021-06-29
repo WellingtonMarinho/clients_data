@@ -36,4 +36,11 @@ class ToPopulateDatabase():
             type_blood=data['tipo_sanguineo'],
             favorite_color=data['cor'],
         )
-        person.save()
+        return person
+
+    def save(self):
+        try:
+            data = self.create_people()
+            data.save()
+        except Exception as e:
+            print(f'Error ::: {e}')

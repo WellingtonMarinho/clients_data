@@ -98,7 +98,7 @@ def people_index(sender, instance, created, **kwargs):
 
     print(f'Try indexing:: {instance.pk} - {instance.name}')
 
-    from .document import PeopleDocument
+    from clients.document import PeopleDocument
 
     try:
         with ElasticSearchConnection(PeopleDocument):
