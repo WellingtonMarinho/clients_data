@@ -18,7 +18,7 @@ class PeopleDocument(DocumentBase):
     birth_date = Date()
     people_age = Keyword()
     slug = Keyword()
-    sex = Keyword(fielddata=True)
+    sex = Keyword()
     sign = Keyword()
     mother_name = Text(analyzer=brazilian_text_analyzer)
     father_name = Text(analyzer=brazilian_text_analyzer)
@@ -97,6 +97,6 @@ class PeopleSearch(FacetedSearch):
     fields = ['name_keyword^100', 'name^10', 'sign']
 
     facets = {
-        'age': TermsFacet(field='people_age'),
+        'people_age': TermsFacet(field='people_age'),
         # 'sex': TermsFacet(field='sex'),
     }
