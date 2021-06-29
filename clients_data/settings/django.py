@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os
 from decouple import config
 
 
@@ -29,7 +28,6 @@ SECRET_KEY = 'django-insecure-dhq8q-rj$vd39h^hh4_0*%5p8ul@l2z8m)ghr$w5bz2*y7upe0
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # '127.0.0.1',
     'localhost',
 ]
 
@@ -147,33 +145,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# REST_FRAMEWORK
-
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 1000,
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-
-}
-
-# ELASTICSEARCH SETTINGS
-
-ES_CONNECTIONS = {
-    config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): {
-        'hosts': [config('ELASTICSEARCH_HOST')],
-    }
-}
-
-PROJECT_INDEX_PEOPLE = config('PROJECT_INDEX_PEOPLE', 'index.peoples')
-
-ES_INDEXES = {
-    config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): [
-        (PROJECT_INDEX_PEOPLE, 'clients.document.PeopleDocument')
-    ]
-}
-
-ES_DEFAULT_BATCH_SIZE = config('ES_DEFAULT_BATCH_SIZE', default=100, cast=int)

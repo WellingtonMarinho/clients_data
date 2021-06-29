@@ -1,5 +1,5 @@
 from fordev.generators import people
-from .models import People
+from clients.models import People
 from random import randint, choices
 
 class ToPopulateDatabase():
