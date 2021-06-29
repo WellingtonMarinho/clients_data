@@ -1,11 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 from elasticsearch_app import ElasticSearchConnection
 from clients.document import PeopleSearch, PeopleDocument
 from clients.serializers import PeopleSearchSerializer
 from clients.utils import BasicPagination, PaginationHandlerMixin
+from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 
 
+@extend_schema(parameters=ELASTICSEARCH_PEOPLE_VIEW_OPENAPI)
 class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
     serializer_class = PeopleSearchSerializer
     pagination_class = BasicPagination

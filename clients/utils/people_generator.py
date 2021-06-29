@@ -3,19 +3,7 @@ from clients.models import People
 from random import randint, choices
 
 class ToPopulateDatabase():
-    def sex_and_age(self):
-        SEX = ['F', 'M']
-        sex = choices(SEX)[0]
-        age = randint(18, 80)
-        return sex, age
-
-    def parser_birth_date(self, date):
-        return '-'.join(list(reversed(date.split('/'))))
-
-    def replace_comma_to_dot(self, str):
-        return float(str.replace(',', '.'))
-
-    def create_people(self):
+    def build_people(self):
         sex, age = self.sex_and_age()
         data = people(sex=sex, age=age)
         person = People.objects.create(
@@ -38,9 +26,21 @@ class ToPopulateDatabase():
         )
         return person
 
+    def sex_and_age(self):
+        SEX = ['F', 'M']
+        sex = choices(SEX)[0]
+        age = randint(18, 80)
+        return sex, age
+
+    def parser_birth_date(self, date):
+        return '-'.join(list(reversed(date.split('/'))))
+
+    def replace_comma_to_dot(self, str):
+        return float(str.replace(',', '.'))
+
     def save(self):
         try:
-            data = self.create_people()
+            data = self.build_people()
             data.save()
         except Exception as e:
             print(f'Error ::: {e}')
