@@ -94,6 +94,6 @@ class PeopleSearch(FacetedSearch):
 
     facets = {
         'age_group': TermsFacet(field='age_group.keyword'),
-        'type_blood': TermsFacet(field='type_blood.keyword'),
+        'favorite_color': TermsFacet(field='favorite_color.keyword'),
         'sex': TermsFacet(field='sex.keyword'),
     }
