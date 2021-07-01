@@ -21,14 +21,16 @@ class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
         start = int(request.GET.get('start', 0))
         end = int(request.GET.get('end', max_results_per_query))
         self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
-        people_age = 'Adult'
-        sex = 'Feminino'
+        age_group = request.GET.getlist('age')
+        sex = request.GET.getlist('sex')
+        type_blood = request.GET.getlist('type_blood')
 
         with ElasticSearchConnection(PeopleDocument):
             qs = PeopleSearch(q,
                 filters={
-                    'people_age': people_age,
-                    # 'sex': sex
+                    'age_group': age_group,
+                    'type_blood': type_blood,
+                    'sex': sex
                 },
                 sort=['_score', '-search_boost']
             )

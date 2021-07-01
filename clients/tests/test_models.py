@@ -49,7 +49,19 @@ class ModelsPeopleTest(TestCase):
         expected = f'{self.people.weight / (self.people.height * self.people.height):.2f}'
         self.assertEqual(imc, expected)
 
-
+    def test_weight_range_property(self):
+        contents = [
+            (18, 'Under weight IMC'),
+            (24, 'Right weight'),
+            (26, 'Overweight'),
+            (30, 'Obesity'),
+        ]
+        for weight, expected in contents:
+            with self.subTest():
+                # self.people.imc = weight
+                print(self.people.imc)
+                print(self.people.weight_range, expected)
+                self.assertEqual(self.people.weight_range, expected)
 
 
 

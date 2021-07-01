@@ -61,18 +61,31 @@ class People(BaseModel):
 
     @property
     def imc(self):
-        return f'{self.weight / (self.height * self.height):.2f}'
+        return float(f'{self.weight / (self.height * self.height):.2f}')
+
+    @property
+    def weight_range(self):
+        imc = self.imc
+        label = 'Obesity'
+        if imc <= 18.5:
+            label = 'Under weight IMC'
+        elif imc <= 24.9:
+            label = 'Right weight'
+        elif imc <= 29.9:
+            label = 'Overweight'
+
+        return label
 
     @property
     def age_group(self):
         value = None
         age = int(self.age)
         if age <= 21:
-            value = 'Young'
+            value = 'young'
         elif age < 65:
-            value = 'Adult'
+            value = 'adult'
         elif age >= 65:
-            value = 'Elderly'
+            value = 'elderly'
         return value
 
 def on_transaction_commit(func):

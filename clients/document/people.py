@@ -1,6 +1,6 @@
 from django.conf import settings
 from elasticsearch_dsl import (Document, FacetedSearch, Integer,
-                               Keyword, Text,DateRange,
+                               Keyword, Text, DateRange,
                                Search, TermsFacet, Long, Date)
 from clients.models import People
 
@@ -16,7 +16,7 @@ class PeopleDocument(DocumentBase):
     cpf = Keyword()
     rg = Keyword()
     birth_date = Date()
-    people_age = Keyword()
+    age_group = Keyword()
     slug = Keyword()
     sex = Keyword()
     sign = Keyword()
@@ -52,6 +52,7 @@ class PeopleDocument(DocumentBase):
 
         if instance.name:
             search_boost = cls._search_boost(instance)
+
             document = PeopleDocument(
                 _id=instance.pk,
                 id=instance.pk,
@@ -73,6 +74,7 @@ class PeopleDocument(DocumentBase):
                 height=instance.height,
                 weight=instance.weight,
                 imc=instance.imc,
+                weight_range=instance.weight_range,
                 type_blood=instance.type_blood,
                 favorite_color=instance.favorite_color,
                 search_boost=search_boost,
@@ -82,13 +84,7 @@ class PeopleDocument(DocumentBase):
     @classmethod
     def _search_boost(cls, instance):
         return 100 + instance.age
-        #
-        # if instance.age < 60:
-        #     value *= 1.10
-        # elif instance.age >= 60:
-        #     value *= 1.25
 
-        # return value
 
 
 class PeopleSearch(FacetedSearch):
@@ -97,6 +93,7 @@ class PeopleSearch(FacetedSearch):
     fields = ['name_keyword^100', 'name^10', 'sign']
 
     facets = {
-        'people_age': TermsFacet(field='people_age'),
-        # 'sex': TermsFacet(field='sex'),
+        'age_group': TermsFacet(field='age_group.keyword'),
+        'type_blood': TermsFacet(field='type_blood.keyword'),
+        'sex': TermsFacet(field='sex.keyword'),
     }
