@@ -24,13 +24,15 @@ class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
         age_group = request.GET.getlist('age')
         sex = request.GET.getlist('sex')
         favorite_color = request.GET.getlist('favorite_color')
+        weight_range = request.GET.getlist('weight_range')
 
         with ElasticSearchConnection(PeopleDocument):
             qs = PeopleSearch(q,
                 filters={
                     'age_group': age_group,
                     'favorite_color': favorite_color,
-                    'sex': sex
+                    'sex': sex,
+                    'weight_range': weight_range,
                 },
                 sort=['_score', '-search_boost']
             )

@@ -27,6 +27,7 @@ class PeopleDocument(DocumentBase):
     mobile = Keyword()
     height = Text()
     weight = Text()
+    weight_range = Keyword()
     type_blood = Keyword()
     favorite_color = Keyword()
 
@@ -96,4 +97,5 @@ class PeopleSearch(FacetedSearch):
         'age_group': TermsFacet(field='age_group.keyword'),
         'favorite_color': TermsFacet(field='favorite_color.keyword'),
         'sex': TermsFacet(field='sex.keyword'),
+        'weight_range': TermsFacet(field='weight_range.keyword'),
     }

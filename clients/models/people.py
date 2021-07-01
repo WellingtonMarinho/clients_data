@@ -17,8 +17,8 @@ class BaseModel(models.Model):
 
 class People(BaseModel):
     SEX = (
-        ('Feminino', 'Feminino'),
-        ('Masculino', 'Masculino'),
+        ('feminino', 'feminino'),
+        ('masculino', 'masculino'),
 
     )
     SIGN = (
@@ -66,13 +66,13 @@ class People(BaseModel):
     @property
     def weight_range(self):
         imc = self.imc
-        label = 'Obesity'
+        label = 'obesity'
         if imc <= 18.5:
-            label = 'Under weight IMC'
+            label = 'under_weight'
         elif imc <= 24.9:
-            label = 'Right weight'
+            label = 'right_weight'
         elif imc <= 29.9:
-            label = 'Overweight'
+            label = 'overweight'
 
         return label
 
