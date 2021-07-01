@@ -64,6 +64,7 @@ class PeopleSearchSerializer(serializers.Serializer):
     mobile = serializers.CharField(max_length=20)
     height = serializers.FloatField()
     weight = serializers.IntegerField()
+    weight_range = serializers.CharField()
     imc = serializers.FloatField()
     type_blood = serializers.CharField(max_length=3)
     favorite_color = serializers.CharField(max_length=20)
