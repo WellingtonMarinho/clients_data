@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: docker-compose build && docker network create network_local && docker-compose up
+  web: docker compose build && docker network create network_local && docker compose up
