@@ -29,4 +29,4 @@ urllib3==1.25.9
 dj-database-url==0.5.0
 gunicorn==19.8.1
 psycopg2-binary==2.8.6
-dj-database-url==0.5.0
+dj-static==0.0.6
