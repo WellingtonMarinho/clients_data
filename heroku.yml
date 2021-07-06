@@ -1,3 +1,9 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: postgres_server
+    - plan: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+      as: elasticsearch_server
 build:
   docker:
     web: Dockerfile
