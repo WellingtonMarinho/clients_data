@@ -3,7 +3,7 @@ from decouple import config
 
 ES_CONNECTIONS = {
     config('ELASTICSEARCH_CONNECTION_ALIAS', 'default'): {
-        'hosts': [config('ELASTICSEARCH_HOST')],
+        'hosts': [config('ELASTICSEARCH_HOST', default=False)],
     }
 }
 
