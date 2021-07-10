@@ -4,7 +4,12 @@ from . import BaseModel, People
 
 
 class Order(BaseModel):
-    client = models.ForeignKey(People, on_delete=models.PROTECT, related_name='orders', verbose_name='client')
+    client = models.ForeignKey(
+        People,
+        on_delete=models.PROTECT,
+        related_name='orders',
+        verbose_name='client'
+    )
 
     def __str__(self):
         return f'Order: {self.pk} - Client: {self.client.name}'
@@ -12,6 +17,7 @@ class Order(BaseModel):
     @property
     def total(self):
         return sum([item.total_per_product for item in self.products.all()])
+
 
 class Product(models.Model):
     name = models.CharField(max_length=55)
