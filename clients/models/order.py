@@ -1,18 +1,17 @@
 from django.db import models
-from .people import People
+from . import BaseModel, People
 # from django_better_admin_arrayfield.models.fields import ArrayField
 
 
-class Order(models.Model):
+class Order(BaseModel):
     client = models.ForeignKey(People, on_delete=models.PROTECT, related_name='orders', verbose_name='client')
 
     def __str__(self):
-        return self.client.name
+        return f'Order: {self.pk} - Client: {self.client.name}'
 
     @property
-    def name(self):
-        return self.client.name
-
+    def total(self):
+        return sum([item.total_per_product for item in self.products.all()])
 
 class Product(models.Model):
     name = models.CharField(max_length=55)
@@ -24,7 +23,7 @@ class Product(models.Model):
 
 
 class OrderProduct(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
@@ -32,4 +31,8 @@ class OrderProduct(models.Model):
         unique_together = ('order', 'product')
 
     def __str__(self):
-        return self.pk
+        return f'Name: {self.product}  --- Quantity: {self.quantity}'
+
+    @property
+    def total_per_product(self):
+        return self.product.price * self.quantity

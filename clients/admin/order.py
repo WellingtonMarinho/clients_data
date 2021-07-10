@@ -24,7 +24,7 @@ class OrderProductInline(admin.TabularInline):
 #     # raw_id_fields = ['client', ]
 
 @admin.register(Order)
-class MainOrderAdmin(admin.ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     raw_id_fields = ['client', ]
 
     inlines = [OrderProductInline, ]

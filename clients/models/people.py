@@ -3,16 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from django.db.models import signals
 from django.dispatch import receiver
-
+from . import BaseModel
 from elasticsearch_app import ElasticSearchConnection
-
-
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    modified_at = models.DateTimeField(_('Modified at'), auto_now=True)
-
-    class Meta:
-        abstract = True
 
 
 class People(BaseModel):
@@ -87,6 +79,7 @@ class People(BaseModel):
         elif age >= 65:
             value = 'elderly'
         return value
+
 
 def on_transaction_commit(func):
     """
