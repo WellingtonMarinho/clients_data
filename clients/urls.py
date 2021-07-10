@@ -1,10 +1,7 @@
 from django.urls import path
-from clients.views import ElasticSearchPeopleView, CasherView
+from clients.views import ElasticSearchPeopleView
 
 
 urlpatterns = [
-    path('', CasherView.as_view(), name='casher'),
-    path('elasticsearch', ElasticSearchPeopleView.as_view(), name='search'),
-
+    path('', ElasticSearchPeopleView.as_view(), name='search'),
 ]
-
