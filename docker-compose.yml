@@ -12,32 +12,32 @@ services:
             - network_local
         ports:
           - "5437:5432"
-#    elasticsearch_server:
-#        image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
-#        container_name: elasticsearch_server
-#        environment:
-#            - discovery.type=single-node
-#        networks:
-#            - network_local
-#        ports:
-#            - "9200:9200"
-#            - "9300:9300"
-#        ulimits:
-#            memlock:
-#                soft: -1
-#                hard: -1
-#        deploy: # defining limit of use memory ram and CPU
-#            resources:
-#                limits:
-#                    cpus: "0.70"
-#                    memory: 5000M
+    elasticsearch_server:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+        container_name: elasticsearch_server
+        environment:
+            - discovery.type=single-node
+        networks:
+            - network_local
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        deploy: # defining limit of use memory ram and CPU
+            resources:
+                limits:
+                    cpus: "0.70"
+                    memory: 5000M
 #    kibana:
 #        image: docker.elastic.co/kibana/kibana:7.13.1
 #        container_name: kibana_server
 #        ports:
 #          - "5601:5601"
-##        volumes:
-##          - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+#        volumes:
+#          - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     django:
         build: .
         command: >
@@ -51,7 +51,6 @@ services:
             - database
         networks:
           - network_local
-
 
 networks:
     network_local:
