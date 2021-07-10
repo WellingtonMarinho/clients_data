@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
@@ -28,7 +29,6 @@ class People(BaseModel):
         ('Peixes', 'Peixes'),
     )
     name = models.CharField(_('Name'), max_length=255)
-    age = models.IntegerField(_('age'))
     cpf = models.CharField('CPF', max_length=14)
     rg = models.CharField('RG', max_length=12)
     birth_date = models.DateField(_('Birth date'))
@@ -50,6 +50,12 @@ class People(BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def age(self):
+        born = self.birth_date
+        today = date.today()
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
     @property
     def imc(self):

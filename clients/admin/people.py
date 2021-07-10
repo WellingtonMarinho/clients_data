@@ -1,8 +1,43 @@
-# from django.contrib import admin
-# from clients.models import People
-#
-# @admin.register(People)
-# class PeopleAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'name', 'sex', 'age', 'mobile')
-#     list_display_links = ('name', )
-#     search_fields = ('name',)
+from django.contrib import admin
+from clients.models import People
+
+
+@admin.register(People)
+class PeopleAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'cpf', 'rg']
+    list_display = ['pk', 'name', 'age', 'email']
+    list_display_links = ['name', ]
+    fieldsets = (
+        ('Person data', {
+            'fields': (
+                'name',
+                'cpf',
+                'rg',
+                'birth_date',
+                'age',
+                'age_group'
+            )
+        }),
+        ('Contacts', {
+           'fields':(
+               'email',
+               'telefone_number',
+               'mobile',
+           )
+        }),
+        ('Others', {
+            'fields': (
+                'sex',
+                'mother_name',
+                'father_name',
+                'sign',
+                'height',
+                'weight',
+                'imc',
+                'type_blood',
+                'favorite_color',
+            )
+
+        })
+    )
+    readonly_fields = ['age', 'imc', 'age_group']

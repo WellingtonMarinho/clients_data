@@ -12,7 +12,7 @@ class Order(BaseModel):
     )
 
     def __str__(self):
-        return f'Order: {self.pk} - Client: {self.client.name}'
+        return f'Order: {self.pk} - Client: {self.client.name} -- Total R$ {self.total}'
 
     @property
     def total(self):
