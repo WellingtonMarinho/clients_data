@@ -9,7 +9,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-
+        depth = 3
 
 class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,9 +17,11 @@ class OrderProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
 class OrderSerializer(serializers.ModelSerializer):
     # products = OrderProductSerializer(many=True, read_only=False)
     products = OrderProductSerializer(many=True)
+    # products = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Order

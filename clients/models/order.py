@@ -25,6 +25,9 @@ class Product(models.Model):
     price = models.DecimalField(_('Price'), max_digits=8, decimal_places=2)
     description = models.TextField(_('Description'), max_length=255, blank=True, null=True)
 
+    class Meta:
+        ordering = ('-id', )
+
     def __str__(self):
         return self.name
 
