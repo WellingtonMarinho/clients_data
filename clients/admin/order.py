@@ -1,5 +1,10 @@
 from django.contrib import admin
-from clients.models import Order, OrderProduct
+from clients.models import Order, OrderProduct, Product
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    pass
 
 
 class OrderProductInline(admin.TabularInline):

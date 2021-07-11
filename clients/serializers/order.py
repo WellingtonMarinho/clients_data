@@ -13,18 +13,25 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderProduct
-        fields = ['id', 'order', 'product', 'quantity']
+        # fields = ['id', 'order', 'product', 'quantity']
+        fields = '__all__'
+
         depth = 1
 
 
 class OrderSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-    items = OrderProductSerializer(many=True, source='products')
+
+    products = OrderProductSerializer(many=True)
+
+
 
     class Meta:
         model = Order
-        fields = [
-            'id',
-            'client',
-            'created_at',
-            'items'
-        ]
+        # fields = [
+            # 'id',
+            # 'client',
+            # 'created_at',
+            # 'products'
+        # ]
+        fields = '__all__'
+        depth = 0
