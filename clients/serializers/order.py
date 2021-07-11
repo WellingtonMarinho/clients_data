@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from clients.models import Order, Product, OrderProduct
+from drf_writable_nested import WritableNestedModelSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -12,11 +13,11 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderProduct
-        fields = ['product', 'quantity']
+        fields = ['id', 'order', 'product', 'quantity']
         depth = 1
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     items = OrderProductSerializer(many=True, source='products')
 
     class Meta:

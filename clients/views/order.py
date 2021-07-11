@@ -7,7 +7,7 @@ from clients.serializers.order import OrderSerializer, OrderProductSerializer, P
 
 
 class OrderView(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
 
 
@@ -15,4 +15,3 @@ class OrderView(generics.ListCreateAPIView):
 class ProductView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-

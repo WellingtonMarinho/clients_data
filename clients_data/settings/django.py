@@ -81,21 +81,21 @@ WSGI_APPLICATION = 'clients_data.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DATABASE_NAME'),
-#         'USER': config('DATABASE_USER'),
-#         'PASSWORD': config('DATABASE_PASSWORD'),
-#         'HOST': config('DATABASE_HOST', '127.0.0.1'),
-#         'PORT': config('DATABASE_PORT', '5432')
-#     },
-# }
-
-default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
-    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST', '127.0.0.1'),
+        'PORT': config('DATABASE_PORT', '5432')
+    },
 }
+
+# default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+# DATABASES = {
+#     'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
+# }
 
 #
 # DATABASES = {

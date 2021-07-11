@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime, date
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
@@ -51,11 +51,19 @@ class People(BaseModel):
     def __str__(self):
         return self.name
 
+# TODO Fix this property using correct logic.
     @property
     def age(self):
-        born = self.birth_date
-        today = date.today()
-        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        try:
+            born = datetime.strptime(self.birth_date, '%Y-%m-%d')
+
+            today = date.today()
+            return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        except:
+            born = self.birth_date
+            today = date.today()
+            return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
 
     @property
     def imc(self):

@@ -8,7 +8,6 @@ class ToPopulateDatabase():
         data = people(sex=sex, age=age)
         person = People.objects.create(
             name=data['nome'],
-            age=data['idade'],
             cpf=data['cpf'],
             rg=data['rg'],
             birth_date=self.parser_birth_date(data['data_nasc']),

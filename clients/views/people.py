@@ -12,7 +12,7 @@ from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
     serializer_class = PeopleSearchSerializer
     pagination_class = BasicPagination
-    pagination_class.page_size = 50
+    pagination_class.page_size = 5
 
     def get(self, request):
         q = request.GET.get('q')
