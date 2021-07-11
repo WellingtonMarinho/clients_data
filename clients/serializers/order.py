@@ -1,28 +1,29 @@
 from rest_framework import serializers
-
 from clients.models import Order, Product, OrderProduct
 
+
 class ProductSerializer(serializers.ModelSerializer):
-    # name = serializers.CharField()
-    # price = serializers.DecimalField(max_digits=8, decimal_places=2)
-    # description = serializers.CharField()
     class Meta:
         model = Product
         fields = '__all__'
-        depth = 3
+        depth = 1
+
 
 class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderProduct
-        fields = '__all__'
-
+        fields = ['product', 'quantity']
+        depth = 1
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    # products = OrderProductSerializer(many=True, read_only=False)
-    products = OrderProductSerializer(many=True)
-    # products = serializers.StringRelatedField(many=True)
+    items = OrderProductSerializer(many=True, source='products')
 
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = [
+            'id',
+            'client',
+            'created_at',
+            'items'
+        ]
