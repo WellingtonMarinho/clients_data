@@ -94,6 +94,9 @@ class People(BaseModel):
             value = 'elderly'
         return value
 
+    @property
+    def all_fields(self):
+        return sorted(vars(self).items())
 
 def on_transaction_commit(func):
     """

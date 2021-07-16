@@ -20,10 +20,7 @@ class OrderProductSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-
     products = OrderProductSerializer(many=True)
-
-
 
     class Meta:
         model = Order

@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext_lazy as _
 from clients.utils.people_generator import ToPopulateDatabase
+from clients.models import People
 
 
 class Command(BaseCommand):
@@ -8,14 +9,9 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for _ in range(50000):
-                try:
-                    people = ToPopulateDatabase()
-                    people.save()
-                    print(f'Create object number {_}')
-                except Exception as e:
-                    pass
-                
+            people = ToPopulateDatabase()
+            people_list = people.build_list_of_people(100)
+            People.objects.bulk_create(people_list)
             print('Populate success')
         except Exception as e:
             print(f'Error ao popular banco de dados: \n\n{e}')
