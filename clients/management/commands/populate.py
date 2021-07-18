@@ -13,6 +13,7 @@ class Command(BaseCommand):
             people_list = people.build_list_of_people(100)
             People.objects.bulk_create(people_list)
             print('Populate success')
+
         except Exception as e:
             print(f'Error ao popular banco de dados: \n\n{e}')
 

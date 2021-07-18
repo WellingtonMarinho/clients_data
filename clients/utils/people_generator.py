@@ -2,11 +2,23 @@ from fordev.generators import people
 from clients.models import People
 from random import randint, choices
 
-class ToPopulateDatabase():
+class ToPopulateDatabase:
+    def sex_and_age(self):
+        SEX = ['F', 'M']
+        sex = choices(SEX)[0]
+        age = randint(18, 80)
+        return sex, age
+
+    def parser_birth_date(self, date):
+        return '-'.join(list(reversed(date.split('/'))))
+
+    def replace_comma_to_dot(self, str):
+        return float(str.replace(',', '.'))
+
     def build_people(self):
         sex, age = self.sex_and_age()
         data = people(sex=sex, age=age)
-        person = dict(
+        return dict(
             name=data['nome'],
             cpf=data['cpf'],
             rg=data['rg'],
@@ -23,37 +35,24 @@ class ToPopulateDatabase():
             type_blood=data['tipo_sanguineo'],
             favorite_color=data['cor'],
         )
-        return person
-
-    def sex_and_age(self):
-        SEX = ['F', 'M']
-        sex = choices(SEX)[0]
-        age = randint(18, 80)
-        return sex, age
-
-    def parser_birth_date(self, date):
-        return '-'.join(list(reversed(date.split('/'))))
-
-    def replace_comma_to_dot(self, str):
-        return float(str.replace(',', '.'))
 
     def build_list_of_people(self, number_of_peoples):
         try:
             list_people = []
+
             for each in range(number_of_peoples):
                 data = self.build_people()
-                data = People(data)
-
-                print(each, data)
+                data = People(**data)
                 list_people.append(data)
             return list_people
+
         except Exception as e:
             print(f'Error ::: {e}')
     
     def save_people(self):
         try:
-            people = self.build_people()
-            people = People.objects.create(people)
+            data = self.build_people()
+            people = People.objects.create(**data)
         
             return people.save()
             
