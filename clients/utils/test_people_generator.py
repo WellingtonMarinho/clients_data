@@ -33,3 +33,4 @@ class TestPeopleGenerator(TestCase):
 
     def test_build_people(self):
         result = self.populate.build_people()
+        for key, value in result.keys()
