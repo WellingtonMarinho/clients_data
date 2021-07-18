@@ -6,7 +6,7 @@ class ToPopulateDatabase():
     def build_people(self):
         sex, age = self.sex_and_age()
         data = people(sex=sex, age=age)
-        person = People(
+        person = dict(
             name=data['nome'],
             cpf=data['cpf'],
             rg=data['rg'],
@@ -42,8 +42,21 @@ class ToPopulateDatabase():
             list_people = []
             for each in range(number_of_peoples):
                 data = self.build_people()
+                data = People(data)
+
                 print(each, data)
                 list_people.append(data)
             return list_people
         except Exception as e:
             print(f'Error ::: {e}')
+    
+    def save_people(self):
+        try:
+            people = self.build_people()
+            people = People.objects.create(people)
+        
+            return people.save()
+            
+        except Exception as e:
+            print(e)
+    
