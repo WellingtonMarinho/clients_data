@@ -9,7 +9,7 @@ services:
           - POSTGRES_USER=postgres
           - POSTGRES_PASSWORD=postgres
         networks:
-            - network_local
+            - data_local
         ports:
           - "5437:5432"
     elasticsearch_server:
@@ -18,7 +18,7 @@ services:
         environment:
             - discovery.type=single-node
         networks:
-            - network_local
+            - data_local
         ports:
             - "9200:9200"
             - "9300:9300"
@@ -50,8 +50,8 @@ services:
         depends_on:
             - database
         networks:
-          - network_local
+          - data_local
 
 networks:
-    network_local:
+    data_local:
         external: true
