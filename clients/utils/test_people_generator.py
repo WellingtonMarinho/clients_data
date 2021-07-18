@@ -32,5 +32,9 @@ class TestPeopleGenerator(TestCase):
                 self.assertEqual(self.populate.replace_comma_to_dot(comma), float(dot))
 
     def test_build_people(self):
-        result = self.populate.build_people()
-        for key, value in result.keys()
+        result = self.populate.build_people().keys()
+        expected = ['name', 'cpf', 'rg', 'birth_date', 'sex', 'sign', 'mother_name',
+                    'father_name', 'email', 'telefone_number', 'mobile', 'height',
+                    'weight', 'type_blood', 'favorite_color']
+
+        self.assertEqual(set(result), set(expected))

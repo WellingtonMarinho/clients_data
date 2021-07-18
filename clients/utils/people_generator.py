@@ -2,6 +2,7 @@ from fordev.generators import people
 from clients.models import People
 from random import randint, choices
 
+
 class ToPopulateDatabase:
     def sex_and_age(self):
         SEX = ['F', 'M']
@@ -57,5 +58,5 @@ class ToPopulateDatabase:
             return people.save()
             
         except Exception as e:
-            print(e)
+            print(f'Error ::: {e}')
     
