@@ -36,15 +36,27 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 
+class OrderProductToGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderProduct
+        fields = ['product', 'quantity']
+
+class OrderToGetSerializer(serializers.ModelSerializer):
+    # products = serializers.SerializerMethodField()
+    # products = serializers.StringRelatedField(many=True)
+    products = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='order'
+    )
+
+    class Meta:
+        model = Order
+        fields = '__all__'
 
 
-
-
-
-
-
-
-
+    # def get_products(self, obj):
+    #     return [product for product in obj.products.all().values()]
 
 
 
