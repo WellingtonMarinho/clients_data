@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from . import BaseModel, People
-# from django_better_admin_arrayfield.models.fields import ArrayField
 
 
 class Order(BaseModel):
@@ -51,7 +50,7 @@ class OrderProduct(models.Model):
         unique_together = ('order', 'product')
 
     def __str__(self):
-        return f'Name: {self.product}  --- Quantity: {self.quantity}'
+        return {self.product}
 
     @property
     def total_per_product(self):

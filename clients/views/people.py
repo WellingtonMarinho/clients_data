@@ -39,11 +39,6 @@ class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
 
             queryset = qs[start:max_results_per_query].execute()
 
-        page = self.paginate_queryset(queryset)
-
-        if page is not None:
-            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
-        else:
-            serializer = self.serializer_class(queryset, many=True)
+        serializer = self.create_pagination(queryset)
 
         return Response(serializer.data)

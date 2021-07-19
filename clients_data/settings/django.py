@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS= ['127.0.0.1', '.localhost', '.herokuapp.com']
 
-INTERNAL_IPS = ['127.0.0.1', '.localhost', '172.18.0.1']
+INTERNAL_IPS = ['127.0.0.1', '.localhost', '172.18.0.1', '172.21.0.1']
 
 # Application definition
 

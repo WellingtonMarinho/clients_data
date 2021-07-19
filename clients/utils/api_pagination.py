@@ -25,3 +25,18 @@ class PaginationHandlerMixin(object):
     def get_paginated_response(self, data):
         assert self.paginator is not None # Ensures which the property by right,
         return self.paginator.get_paginated_response(data)
+
+    def create_pagination(self, queryset=None, serializer=None):
+        if queryset is None:
+            queryset = self.queryset
+        if serializer is None:
+            serializer = self.serializer_class
+
+        page = self.paginate_queryset(queryset)
+
+        if page:
+            serializer = self.get_paginated_response(serializer(page, many=True).data)
+        else:
+            serializer = serializer(queryset, many=True)
+
+        return serializer
