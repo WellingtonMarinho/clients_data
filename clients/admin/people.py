@@ -19,13 +19,15 @@ class PeopleAdmin(admin.ModelAdmin):
             )
         }),
         ('Contacts', {
-           'fields':(
+            'classes': ('collapse',),
+            'fields':(
                'email',
                'telefone_number',
                'mobile',
            )
         }),
         ('Others', {
+            'classes': ('collapse',),
             'fields': (
                 'sex',
                 'mother_name',
