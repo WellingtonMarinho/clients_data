@@ -6,9 +6,42 @@ from clients.models import Order, Product, OrderProduct
 from clients.serializers.order import OrderSerializer, OrderProductSerializer, ProductSerializer
 
 
-class OrderView(generics.ListCreateAPIView):
-    queryset = Order.objects.all().order_by('-id')
+class OrderView(APIView):
+    queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def get(self, request):
+        queryset = Order.objects.all()
+
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class OrderProductView(APIView):
+    queryset = OrderProduct.objects.all()
+    serializer_class = OrderProductSerializer
+
+
+    def get(self, request):
+        queryset = OrderProduct.objects.all()
+        serializer = OrderProductSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = OrderProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class ProductView(generics.ListCreateAPIView):
