@@ -27,7 +27,9 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS= ['.localhost', '.herokuapp.com']
+ALLOWED_HOSTS= ['127.0.0.1', '.localhost', '.herokuapp.com']
+
+INTERNAL_IPS = ['127.0.0.1', '.localhost', '172.18.0.1']
 
 # Application definition
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
 
     'elasticsearch_app',
     'clients',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'clients_data.urls'
