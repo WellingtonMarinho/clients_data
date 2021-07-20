@@ -16,3 +16,7 @@
 
 ### For run console on to container:
     $ docker container exec -ti django_app /bin/bash
+
+
+#### Update docker image in heroku server
+    $ heroku container:release web

@@ -1,13 +1,10 @@
 from django.test import TestCase
 
 
-
 class ViewsPeopleTest(TestCase):
     def setUp(self):
-        self.response = self.client.get('/')
+        self.client = self.client
 
     def test_get(self):
-        self.assertEqual(200, self.response.status_code)
-
-
+        self.assertEqual(200, self.client.get('/elastic/').status_code)
 

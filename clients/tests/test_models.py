@@ -7,7 +7,7 @@ class ModelsPeopleTest(TestCase):
     def setUp(self):
         self.people = People.objects.create(
             name='José Joaquim Rafael Baptista',
-            age=33,
+            # age=33,
             cpf='164.401.906-01',
             rg='10.805.637-5',
             birth_date='1988-04-22',
@@ -32,48 +32,31 @@ class ModelsPeopleTest(TestCase):
 
     def test_age_group(self):
         contents = [
-            (19, 'Young'),
-            (20, 'Young'),
-            (26, 'Adult'),
-            (64, 'Adult'),
-            (66, 'Elderly'),
-            (70, 'Elderly'),
+            ('2000-04-09', 'young'),
+            ('2015-04-22', 'young'),
+            ('1998-04-22', 'adult'),
+            ('1975-04-22', 'adult'),
+            ('1945-04-22', 'elderly'),
+            ('1955-04-22', 'elderly'),
         ]
         for age, expected in contents:
             with self.subTest():
-                self.people.age = age
+                self.people.birth_date = age
                 self.assertEqual(self.people.age_group, expected)
 
     def test_imc_property(self):
         imc = self.people.imc
         expected = f'{self.people.weight / (self.people.height * self.people.height):.2f}'
-        self.assertEqual(imc, expected)
+        self.assertEqual(imc, float(expected))
 
     def test_weight_range_property(self):
         contents = [
-            (18, 'Under weight IMC'),
-            (24, 'Right weight'),
-            (26, 'Overweight'),
-            (30, 'Obesity'),
+            (50, 'under_weight'),
+            (65, 'right_weight'),
+            (74, 'overweight'),
+            (83, 'obesity'),
         ]
         for weight, expected in contents:
             with self.subTest():
-                # self.people.imc = weight
-                print(self.people.imc)
-                print(self.people.weight_range, expected)
+                self.people.weight = weight
                 self.assertEqual(self.people.weight_range, expected)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

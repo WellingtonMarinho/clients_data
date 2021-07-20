@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
+from clients_data import settings
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('clients.urls')),
@@ -27,3 +29,9 @@ urlpatterns = [
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

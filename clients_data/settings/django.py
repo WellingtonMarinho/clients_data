@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
-from decouple import config
-
+from decouple import config, Csv
+from dj_database_url import parse as dburl
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,15 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dhq8q-rj$vd39h^hh4_0*%5p8ul@l2z8m)ghr$w5bz2*y7upe0'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = [
-    'localhost',
-]
+ALLOWED_HOSTS= ['127.0.0.1', '.localhost', '.herokuapp.com']
 
+INTERNAL_IPS = ['127.0.0.1', '.localhost', '172.18.0.1', '172.21.0.1']
 
 # Application definition
 
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
 
     'elasticsearch_app',
     'clients',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'clients_data.urls'
@@ -94,6 +95,11 @@ DATABASES = {
         'PORT': config('DATABASE_PORT', '5432')
     },
 }
+
+# default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+# DATABASES = {
+#     'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
+# }
 
 #
 # DATABASES = {
@@ -140,6 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
