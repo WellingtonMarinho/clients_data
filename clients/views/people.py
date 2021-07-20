@@ -13,6 +13,7 @@ class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
     serializer_class = PeopleSearchSerializer
     pagination_class = BasicPagination
     pagination_class.page_size = 5
+    # pagination_class.max_page_size = 20
 
     def get(self, request):
         q = request.GET.get('q')
@@ -38,7 +39,12 @@ class ElasticSearchPeopleView(APIView, PaginationHandlerMixin):
             )
 
             queryset = qs[start:max_results_per_query].execute()
+        page = self.paginate_queryset(queryset)
 
-        serializer = self.create_pagination(queryset)
+        if page:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(queryset, many=True)
+        # serializer = self.create_serializer_paginated(queryset)
 
         return Response(serializer.data)
