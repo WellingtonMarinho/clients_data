@@ -25,11 +25,8 @@ class SerializerPeopleCreateTest(TestCase):
         self.serializer = PeopleSerializer(instance=self.people)
 
     def test_contains_expected_fields(self):
-        data = self.serializer.data
-
-        self.assertEqual(
-            set(data.keys()),
-            set([
+        result = self.serializer.data
+        expected = [
                 'name',
                 'age',
                 'cpf',
@@ -46,7 +43,10 @@ class SerializerPeopleCreateTest(TestCase):
                 'weight',
                 'type_blood',
                 'favorite_color'
-            ]))
+            ]
+        self.assertEqual(
+            set(result.keys()),
+            set(expected))
 
     def test_validate_cpf_raise_exception(self):
         falses_cpfs = ['789.416.310-99', '361.587.820-06', 'asadhfpad']

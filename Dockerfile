@@ -4,6 +4,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+COPY requirements-dev.txt /app/
 COPY requirements.txt /app/
 
 # RUN apt-get update && apt-get install -y \
