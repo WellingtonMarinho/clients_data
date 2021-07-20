@@ -50,7 +50,7 @@ class OrderProduct(models.Model):
         unique_together = ('order', 'product')
 
     def __str__(self):
-        return {self.product}
+        return self.product
 
     @property
     def total_per_product(self):

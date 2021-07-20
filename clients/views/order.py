@@ -2,26 +2,19 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from clients.models import Order, Product, OrderProduct
-from clients.serializers.order import OrderSerializer, OrderProductSerializer, ProductSerializer, OrderToGetSerializer
+from clients.models import Order, Product
+from clients.serializers.order import OrderSerializer, ProductSerializer, OrderToGetSerializer
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 
 class OrderView(PaginationHandlerMixin, APIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderToGetSerializer
+    queryset = Order.objects.all().order_by('-id')
+    serializer_class = OrderSerializer
     pagination_class = BasicPagination
-    pagination_class.page_size = 1
 
     def get(self, request):
-        queryset = self.queryset
-        page = self.paginate_queryset(queryset)
-
-        if page:
-            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
-        else:
-            serializer = self.serializer_class(queryset, many=True)
-        # serializer = self.create_serializer_paginated()
+        self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
+        serializer = self.create_serializer_paginated(serializer=OrderToGetSerializer)
         return Response(serializer.data)
 
     def post(self, request):
@@ -36,9 +29,9 @@ class ProductView(PaginationHandlerMixin, APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = BasicPagination
-    pagination_class.page_size = 10
 
     def get(self, request):
+        self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
         serializer = self.create_serializer_paginated()
         return Response(serializer.data)
 
@@ -61,20 +54,3 @@ class ProductDetailView(APIView):
         serializer = ProductSerializer(product, many=False)
 
         return Response(serializer.data)
-
-
-# class OrderProductView(APIView):
-#     queryset = OrderProduct.objects.all()
-#     serializer_class = OrderProductSerializer
-#
-#     def get(self, request):
-#         queryset = OrderProduct.objects.all()
-#         serializer = self.serializer_class(queryset, many=True)
-#         return Response(serializer.data)
-#
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

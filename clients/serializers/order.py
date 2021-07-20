@@ -21,7 +21,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-
         fields = '__all__'
         depth = 0
 
@@ -35,33 +34,30 @@ class OrderSerializer(serializers.ModelSerializer):
         return order
 
 
-class OrderProductToGetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderProduct
-        fields = ['product', 'quantity']
+# class OrderProductToGetSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = OrderProduct
+#         fields = ['product', 'quantity']
+
 
 class OrderToGetSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()
-    # clients = serializers.SerializerMethodField()
+    # client_name = serializers.SerializerMethodField()
+    # total = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
-        fields = '__all__'
-
-    # def get_clients(self, obj):
-    #     print(obj)
-    #     print()
-    #     print(obj.__dict__)
-    #     print()
-    #     print(dir(obj))
-    #     return 'Hello world'
+        # fields = ['id', 'client', 'client_name', 'created_at', 'modified_at', 'products', 'total']
+        fields = ['id', 'client', 'created_at', 'modified_at', 'products']
 
     def get_products(self, obj):
         return [product for product in obj.products.all().values(
             'product__name',
             'product__price',
-            'quantity',
-        )]
+            'quantity')]
 
-
-
+    # def get_client_name(self, obj):
+    #     return obj.client.name
+    #
+    # def get_total(self, obj):
+    #     return obj.total
