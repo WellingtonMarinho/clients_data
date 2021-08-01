@@ -1,15 +1,21 @@
 from django.test import TestCase
 from .people_generator import ToPopulateDatabase
 
+
 class TestPeopleGenerator(TestCase):
     def setUp(self) -> None:
         self.populate = ToPopulateDatabase()
 
     def test_sex_and_age(self):
-        sex_and_age = self.populate.sex_and_age()
-        assert sex_and_age[0] in 'FfMm'
-        assert type(sex_and_age[1]) == int
-        assert sex_and_age[1] > 17
+        sexs_and_ages = []
+
+        for each in range(10):
+            sexs_and_ages.append(self.populate.sex_and_age())
+        for sex_and_age in sexs_and_ages:
+            with self.subTest():
+                self.assertIn(sex_and_age[0], 'FfMm')
+                self.assertEqual(type(sex_and_age[1]), int)
+                self.assertTrue((sex_and_age[1] >17))
 
     def test_parser_birth_date(self):
         content = [
