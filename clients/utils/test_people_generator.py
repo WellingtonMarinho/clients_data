@@ -8,9 +8,9 @@ class TestPeopleGenerator(TestCase):
 
     def test_sex_and_age(self):
         sexs_and_ages = []
-
         for each in range(10):
             sexs_and_ages.append(self.populate.sex_and_age())
+
         for sex_and_age in sexs_and_ages:
             with self.subTest():
                 self.assertIn(sex_and_age[0], 'FfMm')
