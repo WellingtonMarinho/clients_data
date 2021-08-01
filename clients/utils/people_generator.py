@@ -41,12 +41,12 @@ class ToPopulateDatabase:
         try:
             list_people = []
 
-            for each in range(number_of_peoples):
-
-                data = self.build_people()
-                data = People(**data)
-                print(each)
+            for _ in range(number_of_peoples):
+                people = self.build_people()
+                data = People(**people)
+                print(_)
                 list_people.append(data)
+
             return list_people
 
         except Exception as e:
