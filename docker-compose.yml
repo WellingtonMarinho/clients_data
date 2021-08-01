@@ -29,8 +29,8 @@ services:
         deploy: # defining limit of use memory ram and CPU
             resources:
                 limits:
-                    cpus: "0.70"
-                    memory: 5000M
+                    cpus: "0.50"
+                    memory: 3500M
 #    kibana:
 #        image: docker.elastic.co/kibana/kibana:7.13.1
 #        container_name: kibana_server

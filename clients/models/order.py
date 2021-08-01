@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Sum
 from django.utils.translation import gettext_lazy as _
 from . import BaseModel, People
 
@@ -14,9 +15,18 @@ class Order(BaseModel):
     def __str__(self):
         return f'Order: {self.pk} - Client: {self.client.name} -- Total R$ {self.total}'
 
+# TODO Aplicar com o annotate
     @property
     def total(self):
-        return sum([item.total_per_product for item in self.products.all()])
+        return self.order_product.all().aggregate(Sum('product__price'))
+
+    @property
+    def teste(self):
+        return self.order_product.product.annotate(total=Sum('product__price'))
+
+    @property
+    def media_per_item(self):
+        return self.order_product.all().aggregate(Avg('product__price'))
 
 
 class Product(models.Model):
@@ -35,7 +45,7 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name='products',
+        related_name='order_product',
         verbose_name=_('Order')
     )
     product = models.ForeignKey(

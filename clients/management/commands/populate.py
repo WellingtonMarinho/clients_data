@@ -19,3 +19,4 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         self.create()
+docker
