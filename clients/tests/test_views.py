@@ -53,12 +53,3 @@ class ViewsPeopleTest(TestCase):
                 ).json()['results']
                 for response in responses:
                     self.assertEqual(label, response.get('weight_range'))
-
-
-
-
-
-
-
-
-
