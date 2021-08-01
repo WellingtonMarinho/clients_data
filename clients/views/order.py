@@ -8,13 +8,13 @@ from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 
 class OrderView(PaginationHandlerMixin, APIView):
-    queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
     pagination_class = BasicPagination
 
     def get(self, request):
+        queryset = Order.objects.all().order_by('-id')
         self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
-        serializer = self.create_serializer_paginated(serializer=OrderToGetSerializer)
+        serializer = self.create_serializer_paginated(serializer=OrderToGetSerializer, queryset=queryset)
         return Response(serializer.data)
 
     def post(self, request):
