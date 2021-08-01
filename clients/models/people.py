@@ -28,6 +28,7 @@ class People(BaseModel):
         ('Aquário', 'Aquário'),
         ('Peixes', 'Peixes'),
     )
+
     name = models.CharField(_('Name'), max_length=255)
     cpf = models.CharField('CPF', max_length=14)
     rg = models.CharField('RG', max_length=12)
