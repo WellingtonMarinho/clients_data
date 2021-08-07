@@ -9,7 +9,7 @@ from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 
 
 @extend_schema(parameters=ELASTICSEARCH_PEOPLE_VIEW_OPENAPI)
-class ElasticSearchPeopleView(PaginationHandlerMixin, APIView):
+class PeopleElasticSearchView(PaginationHandlerMixin, APIView):
     serializer_class = PeopleSearchSerializer
     pagination_class = BasicPagination
 
@@ -41,3 +41,9 @@ class ElasticSearchPeopleView(PaginationHandlerMixin, APIView):
         serializer = self.create_serializer_paginated(queryset)
 
         return Response(serializer.data)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)

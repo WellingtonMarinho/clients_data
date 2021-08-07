@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 from clients.models import People
@@ -44,6 +45,9 @@ class PeopleSerializer(serializers.ModelSerializer):
             return rg
         raise ValidationError('RG não é válido.')
 
+    def validate_sign(self, obj):
+        if obj not in settings.SIGN:
+            raise ValidationError('')
 
 class PeopleSearchSerializer(serializers.Serializer):
     id = serializers.IntegerField()
