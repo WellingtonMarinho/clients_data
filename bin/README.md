@@ -8,7 +8,7 @@
     $ cdvirtualenv
     $ create file named '.project' in .virtualenvs/name_env/
     
-    Past this line in .project
+    Past this line in bin/postactivate
 
     source bin/.bashrc
 
