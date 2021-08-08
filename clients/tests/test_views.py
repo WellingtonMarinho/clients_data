@@ -6,16 +6,16 @@ class ViewsPeopleTest(TestCase):
     #     self.client = self.client
 
     def test_get(self):
-        self.assertEqual(200, self.client.get('/elastic/').status_code)
+        self.assertEqual(200, self.client.get('/people/').status_code)
 
     def test_return_itens_per_page(self):
         per_page = 15
-        response = self.client.get(f'/elastic/?per_page={per_page}').json().get('results')
+        response = self.client.get(f'/people/?per_page={per_page}').json().get('results')
         self.assertEqual(per_page, len(response))
 
     def test_max_itens_per_query(self):
         limit_per_query = 69
-        response = self.client.get(f'/elastic/?limit_per_query={limit_per_query}').json().get('count')
+        response = self.client.get(f'/people/?limit_per_query={limit_per_query}').json().get('count')
         self.assertEqual(limit_per_query, response)
 
     def test_filter_by_sex(self):
@@ -25,7 +25,7 @@ class ViewsPeopleTest(TestCase):
         for sex in sexs:
             with self.subTest():
                 responses = self.client.get(
-                    f'/elastic/?sex={sex}&per_page={per_page}'
+                    f'/people/?sex={sex}&per_page={per_page}'
                 ).json().get('results')
                 for response in responses:
                     self.assertEqual(sex, response.get('sex'))
@@ -37,7 +37,7 @@ class ViewsPeopleTest(TestCase):
         for color in favorite_colors:
             with self.subTest():
                 responses = self.client.get(
-                    f'/elastic/?favorite_color={color}&per_page={per_page}'
+                    f'/people/?favorite_color={color}&per_page={per_page}'
                 ).json().get('results')
                 for response in responses:
                     self.assertEqual(color, response.get('favorite_color'))
@@ -49,7 +49,7 @@ class ViewsPeopleTest(TestCase):
         for label in labels:
             with self.subTest():
                 responses = self.client.get(
-                    f'/elastic/?weight_range={label}&per_page={per_page}'
+                    f'/people/?weight_range={label}&per_page={per_page}'
                 ).json()['results']
                 for response in responses:
                     self.assertEqual(label, response.get('weight_range'))
