@@ -30,7 +30,7 @@ class ViewsPeopleTest(TestCase):
         slug = people.slug
 
         response = self.client.get(f'/people/?people={slug}').json()
-        
+
         self.assertEqual(people.name, response['name'])
         self.assertEqual(people.rg, response['rg'])
         self.assertEqual(people.cpf, response['cpf'])
