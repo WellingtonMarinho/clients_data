@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for each in range(100):
+            for each in range(2000):
                 people = ToPopulateDatabase()
                 people.save_people()
                 print('Success')
