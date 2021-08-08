@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 from elasticsearch_app import ElasticSearchConnection
 from clients.document import PeopleSearch, PeopleDocument
-from clients.serializers import PeopleSearchSerializer, PeopleSerializer
+from clients.serializers import PeopleGetSerializer, PeoplePostSerializer
 from clients.models import People
 from clients.utils import BasicPagination, PaginationHandlerMixin
 from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
@@ -13,7 +13,7 @@ from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 
 @extend_schema(parameters=ELASTICSEARCH_PEOPLE_VIEW_OPENAPI)
 class PeopleView(PaginationHandlerMixin, APIView):
-    serializer_class = PeopleSearchSerializer
+    serializer_class = PeopleGetSerializer
     pagination_class = BasicPagination
 
     def get_object(self, slug):
@@ -23,10 +23,10 @@ class PeopleView(PaginationHandlerMixin, APIView):
             raise Http404
 
     def get(self, request):
-        slug = request.GET.get('people')
+        slug = request.GET.get('people', None)
         if slug:
             people = self.get_object(slug)
-            serializer = PeopleSerializer(people)
+            serializer = PeopleGetSerializer(people)
             if serializer:
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -53,13 +53,15 @@ class PeopleView(PaginationHandlerMixin, APIView):
             )
 
             queryset = qs[start:max_results_per_query].execute()
-
+        print('#-#'* 55)
+        print(queryset)
+        print('#-#'* 55)
         serializer = self.create_serializer_paginated(queryset)
 
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = PeopleSerializer(data=request.data)
+        serializer = PeoplePostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

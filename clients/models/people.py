@@ -46,7 +46,6 @@ class People(BaseModel):
             today = date.today()
             return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
-
     @property
     def imc(self):
         return float(f'{self.weight / (self.height * self.height):.2f}')
