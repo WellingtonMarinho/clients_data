@@ -7,7 +7,6 @@ class ModelsPeopleTest(TestCase):
     def setUp(self):
         self.people = People.objects.create(
             name='José Joaquim Rafael Baptista',
-            # age=33,
             cpf='164.401.906-01',
             rg='10.805.637-5',
             birth_date='1988-04-22',

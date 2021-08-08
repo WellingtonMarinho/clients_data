@@ -1,12 +1,40 @@
 from django.test import TestCase
+from clients.models import People
 
 
 class ViewsPeopleTest(TestCase):
-    # def setUp(self):
-    #     self.client = self.client
+    def setUp(self):
+        self.people_to_request = People.objects.create(
+            name='Letícia Esther Viana',
+            cpf='953.183.769-40',
+            rg='24.286.324-3',
+            birth_date='1961-11-13',
+            sex='Feminino',
+            sign='Escorpião',
+            mother_name='Ana Elisa',
+            father_name='Lucca Sebastião Viana',
+            email='leticiaestherviana_@focusgrafica.com.br',
+            telefone_number='() 2576-9555',
+            mobile='() 99486-7953',
+            height=1.64,
+            weight=45,
+            type_blood='A+',
+            favorite_color='laranja'
+        )
 
     def test_get(self):
         self.assertEqual(200, self.client.get('/people/').status_code)
+
+    def test_get_just_one_object_with_slug_querystring(self):
+        people = People.objects.last()
+        slug = people.slug
+
+        response = self.client.get(f'/people/?people={slug}').json()
+        
+        self.assertEqual(people.name, response['name'])
+        self.assertEqual(people.rg, response['rg'])
+        self.assertEqual(people.cpf, response['cpf'])
+
 
     def test_return_itens_per_page(self):
         per_page = 15
