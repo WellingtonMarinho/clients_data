@@ -1,9 +1,10 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 from elasticsearch_app import ElasticSearchConnection
 from clients.document import PeopleSearch, PeopleDocument
-from clients.serializers import PeopleSearchSerializer
+from clients.serializers import PeopleSearchSerializer, PeopleSerializer
 from clients.utils import BasicPagination, PaginationHandlerMixin
 from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 
@@ -11,6 +12,7 @@ from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 @extend_schema(parameters=ELASTICSEARCH_PEOPLE_VIEW_OPENAPI)
 class PeopleElasticSearchView(PaginationHandlerMixin, APIView):
     serializer_class = PeopleSearchSerializer
+    # serializer_class = PeopleSerializer
     pagination_class = BasicPagination
 
     def get(self, request):
@@ -43,7 +45,8 @@ class PeopleElasticSearchView(PaginationHandlerMixin, APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = PeopleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

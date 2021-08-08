@@ -3,6 +3,7 @@ SEX = (
     ('masculino', 'masculino'),
 
 )
+
 SIGN = (
     ('Áries', 'Áries'),
     ('Touro', 'Touro'),
