@@ -11,7 +11,6 @@ from clients.utils import BasicPagination, PaginationHandlerMixin
 from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 
 
-@extend_schema(parameters=ELASTICSEARCH_PEOPLE_VIEW_OPENAPI)
 class PeopleView(PaginationHandlerMixin, APIView):
     serializer_class = PeopleGetSerializer
     pagination_class = BasicPagination
@@ -22,6 +21,7 @@ class PeopleView(PaginationHandlerMixin, APIView):
         except:
             raise Http404
 
+    @extend_schema(parameters=ELASTICSEARCH_PEOPLE_VIEW_OPENAPI)
     def get(self, request):
         slug = request.GET.get('people', None)
         if slug:
@@ -53,9 +53,7 @@ class PeopleView(PaginationHandlerMixin, APIView):
             )
 
             queryset = qs[start:max_results_per_query].execute()
-        print('#-#'* 55)
-        print(queryset)
-        print('#-#'* 55)
+
         serializer = self.create_serializer_paginated(queryset)
 
         return Response(serializer.data)

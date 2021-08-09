@@ -35,7 +35,6 @@ class ViewsPeopleTest(TestCase):
         self.assertEqual(people.rg, response['rg'])
         self.assertEqual(people.cpf, response['cpf'])
 
-
     def test_return_itens_per_page(self):
         per_page = 15
         response = self.client.get(f'/people/?per_page={per_page}').json().get('results')

@@ -58,8 +58,6 @@ class PeopleGetSerializer(serializers.Serializer):
     cpf = serializers.CharField(max_length=14)
     rg = serializers.CharField(max_length=12)
     slug = serializers.SlugField(read_only=True)
-    birth_date = serializers.DateField(format="%Y-%m-%d")
-    # birth_date = serializers.DateTimeField()
     age_group = serializers.CharField(read_only=True)
     sex = serializers.CharField(max_length=9)
     sign = serializers.CharField(max_length=15)
