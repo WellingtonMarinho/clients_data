@@ -49,6 +49,11 @@ class PeoplePostSerializer(serializers.ModelSerializer):
             return obj
         raise ValidationError('Signo inválido.')
 
+    def validate_type_blood(self, obj):
+        if obj in [type_blood for type_blood in settings.TYPE_BLOOD]:
+            return obj
+        raise ValidationError('Tipo sanguíneo inválido.')
+
 
 class PeopleGetSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)

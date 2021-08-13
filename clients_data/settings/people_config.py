@@ -18,3 +18,14 @@ SIGN = (
     ('Aquário', 'Aquário'),
     ('Peixes', 'Peixes'),
 )
+
+TYPE_BLOOD = (
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
+)
