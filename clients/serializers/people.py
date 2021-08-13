@@ -30,9 +30,9 @@ class PeoplePostSerializer(serializers.ModelSerializer):
         ]
 
     def validate_name(self, obj):
-        if not obj.replace(' ', '').isalpha():
-            raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
-        return obj.title()
+        if obj.replace(' ', '').isalpha():
+            return obj.title()
+        raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
 
     def validate_cpf(self, cpf):
         if is_valid_cpf(cpf):
@@ -43,6 +43,11 @@ class PeoplePostSerializer(serializers.ModelSerializer):
         if is_valid_rg(rg):
             return rg
         raise ValidationError('RG não é válido.')
+
+    def validate_sex(self, obj):
+        if obj in [sex for sex in settings.SEX]:
+            return obj
+        raise ValidationError('Sexo inválido')
 
     def validate_sign(self, obj):
         if obj in [sign[0] for sign in settings.SIGN]:
