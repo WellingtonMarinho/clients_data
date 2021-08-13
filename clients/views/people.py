@@ -7,7 +7,7 @@ from elasticsearch_app import ElasticSearchConnection
 from clients.document import PeopleSearch, PeopleDocument
 from clients.serializers import PeopleGetSerializer, PeoplePostSerializer
 from clients.models import People
-from clients.utils import BasicPagination, PaginationHandlerMixin
+from clients.utils import BasicPagination, PaginationHandlerMixin, people_generator
 from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
 
 

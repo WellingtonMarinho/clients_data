@@ -10,6 +10,7 @@
 
 ### For run populate database
     $ docker container exec -ti django_app python manage.py populate
+    $ docker container exec -ti django_app python manage.py populate_in_elasticsearch
 
 ### For clear and reindexing documents in elasticsearch
     $ docker container exec -ti django_app python manage.py search -c
