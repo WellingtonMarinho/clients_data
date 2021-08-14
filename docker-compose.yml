@@ -45,8 +45,8 @@ services:
         ports:
           - "9000:9000"
         volumes:
-          - ${PWD}/:/app
-          - ${LOGGING_PATH}:/root/src/logging_registry
+          - .:/app
+#          - ${LOGGING_PATH}:/app
 
         container_name: django_app
         depends_on:
