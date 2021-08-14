@@ -46,7 +46,6 @@ services:
           - "9000:9000"
         volumes:
           - .:/app
-#          - ${LOGGING_PATH}:/tmp/debug.log
 
         container_name: django_app
         depends_on:

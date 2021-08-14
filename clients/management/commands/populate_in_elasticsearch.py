@@ -13,6 +13,7 @@ class Command(BaseCommand):
     def create(self, **kwargs):
         try:
             for each in range(2000):
+                print(each)
                 people = ToPopulateDatabase()
                 people.save_people()
             print('Success in populate database.')

@@ -114,6 +114,8 @@ def people_index(sender, instance, created, **kwargs):
             document = PeopleDocument.build_document(instance=instance)
             document and document.save()
             logger.info(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
+            print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
 
     except Exception as e:
         logger.error(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
+        print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
