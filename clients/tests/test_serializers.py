@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from django.conf import settings
 from clients.models import People
 from clients.serializers import PeoplePostSerializer, PeopleGetSerializer
 from rest_framework.exceptions import ValidationError
@@ -51,6 +51,13 @@ class SerializerPeopleCreateTest(TestCase):
             ]
         self.assertEqual(set(result.keys()), set(expected))
 
+    def test_validate_name(self):
+        names = ['wellington marinho soares', 'WELLINGTON MARINHO SOARES', 'weLLINGton maRINho soAREs']
+        expected = 'Wellington Marinho Soares'
+        for name in names:
+            with self.subTest():
+                self.assertEqual(self.serializer_create.validate_name(name), expected)
+
     def test_validate_cpf_raise_exception(self):
         falses_cpfs = ['789.416.310-99', '361.587.820-06', 'asadhfpad']
         for cpf in falses_cpfs:
@@ -75,12 +82,17 @@ class SerializerPeopleCreateTest(TestCase):
             with self.subTest():
                 self.assertTrue(self.serializer_create.validate_rg(rg))
 
-    def test_validate_name(self):
-        names = ['wellington marinho soares', 'WELLINGTON MARINHO SOARES', 'weLLINGton maRINho soAREs']
-        expected = 'Wellington Marinho Soares'
-        for name in names:
+    def test_validate_sign_contains_in_settings_variable(self):
+        signs = [sign[0] for sign in settings.SIGN]
+        for sign in signs:
             with self.subTest():
-                self.assertEqual(self.serializer_create.validate_name(name), expected)
+                self.assertEqual(self.serializer_create.validate_sign(sign), sign)
+
+    def test_validate_sign_raise_expection_if_sign_is_not_in_settings_variable(self):
+        signs = ['Whatever', 'Again Whatever', 'Signs']
+        for sign in signs:
+            with self.subTest():
+                self.assertRaises(ValidationError, self.serializer_create.validate_sign, sign)
 
 
 class SerializerPeopleRetrieveTest(TestCase):
@@ -107,9 +119,28 @@ class SerializerPeopleRetrieveTest(TestCase):
 
         self.serializer_retrieve = PeopleGetSerializer(instance=self.people_object)
 
-    def test_first(self):
-        print('#-#' * 55)
-        print()
-        print(self.serializer_retrieve)
-        print()
-        print('#-#' * 55)
+    def test_contains_expected_fields_in_serializer_retrieve(self):
+        expected = [
+            'id',
+            'name',
+            'age',
+            'cpf',
+            'rg',
+            'slug',
+            'age_group',
+            'sex',
+            'sign',
+            'mother_name',
+            'father_name',
+            'email',
+            'telefone_number',
+            'mobile',
+            'height',
+            'weight',
+            'weight_range',
+            'imc',
+            'type_blood',
+            'favorite_color'
+        ]
+        result = self.serializer_retrieve.data
+        self.assertEqual(set(expected), set(result.keys()))

@@ -9,6 +9,7 @@ from . import BaseModel
 from elasticsearch_app import ElasticSearchConnection
 
 
+# TODO Research about shortuuid
 class People(BaseModel):
     name = models.CharField(_('Name'), max_length=255)
     cpf = models.CharField('CPF', max_length=14)

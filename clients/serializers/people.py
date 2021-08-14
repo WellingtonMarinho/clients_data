@@ -30,9 +30,9 @@ class PeoplePostSerializer(serializers.ModelSerializer):
         ]
 
     def validate_name(self, obj):
-        if not obj.replace(' ', '').isalpha():
-            raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
-        return obj.title()
+        if obj.replace(' ', '').isalpha():
+            return obj.title()
+        raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
 
     def validate_cpf(self, cpf):
         if is_valid_cpf(cpf):
@@ -44,10 +44,20 @@ class PeoplePostSerializer(serializers.ModelSerializer):
             return rg
         raise ValidationError('RG não é válido.')
 
+    def validate_sex(self, obj):
+        if obj in [sex for sex in settings.SEX]:
+            return obj
+        raise ValidationError('Sexo inválido')
+
     def validate_sign(self, obj):
         if obj in [sign[0] for sign in settings.SIGN]:
             return obj
         raise ValidationError('Signo inválido.')
+
+    def validate_type_blood(self, obj):
+        if obj in [type_blood for type_blood in settings.TYPE_BLOOD]:
+            return obj
+        raise ValidationError('Tipo sanguíneo inválido.')
 
 
 class PeopleGetSerializer(serializers.Serializer):
@@ -58,8 +68,6 @@ class PeopleGetSerializer(serializers.Serializer):
     cpf = serializers.CharField(max_length=14)
     rg = serializers.CharField(max_length=12)
     slug = serializers.SlugField(read_only=True)
-    birth_date = serializers.DateField(format="%Y-%m-%d")
-    # birth_date = serializers.DateTimeField()
     age_group = serializers.CharField(read_only=True)
     sex = serializers.CharField(max_length=9)
     sign = serializers.CharField(max_length=15)
