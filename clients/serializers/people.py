@@ -47,7 +47,7 @@ class PeoplePostSerializer(serializers.ModelSerializer):
     def validate_sex(self, obj):
         if obj in [sex for sex in settings.SEX]:
             return obj
-        raise ValidationError('Sexo inválido')
+        raise ValidationError('Sexo inválido.')
 
     def validate_sign(self, obj):
         if obj in [sign[0] for sign in settings.SIGN]:

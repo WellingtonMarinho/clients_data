@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, date
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +8,9 @@ from django.conf import settings
 from django.dispatch import receiver
 from . import BaseModel
 from elasticsearch_app import ElasticSearchConnection
+
+
+logger = logging.getLogger(__name__)
 
 
 # TODO Research about shortuuid
@@ -101,16 +105,17 @@ def on_transaction_commit(func):
 @on_transaction_commit
 def people_index(sender, instance, created, **kwargs):
 
-    print(f'Try indexing:: {instance.pk} - {instance.name}')
+    logger.info(f'Try indexing:: {instance.pk} - {instance.name}')
 
     from clients.document import PeopleDocument
 
     try:
         with ElasticSearchConnection(PeopleDocument):
             document = PeopleDocument.build_document(instance=instance)
-            print(f'DOCUMENT:::-> {document}')
             document and document.save()
+            logger.info(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
             print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
 
     except Exception as e:
+        logger.error(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
         print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
