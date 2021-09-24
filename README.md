@@ -5,6 +5,12 @@
     $ docker network create network_local
     $ docker compose up
 
+### Add file bin/.bash in path postactivate for charge alias:
+    docker-build
+    docker-up
+    docker-manage
+    docker-bash
+
 ### For run Django commands:
     $ docker container exec -ti django_app python manage.py [command]
 

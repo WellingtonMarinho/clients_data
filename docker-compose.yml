@@ -8,10 +8,14 @@ services:
           - POSTGRES_DB=postgres
           - POSTGRES_USER=postgres
           - POSTGRES_PASSWORD=postgres
+          - DUMP_SQL=
         networks:
             - data_local
         ports:
           - "5437:5432"
+#        volumes:
+#            - pg_data:/var/lib/postgresql/data/
+
     elasticsearch_server:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
         container_name: elasticsearch_server
@@ -56,3 +60,6 @@ services:
 networks:
     data_local:
         external: true
+
+volumes:
+    pg_data:
