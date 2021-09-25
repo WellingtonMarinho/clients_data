@@ -18,16 +18,24 @@ class Order(BaseModel):
 # TODO Aplicar com o annotate
     @property
     def total(self):
-        return self.order_product.all().aggregate(Sum('product__price'))
+        try:
+            return self.order_product.all().aggregate(Sum('product__price'))
+        except Exception as e:
+            print(f'ERROR: {e}')
 
     @property
     def teste(self):
-        return self.order_product.product.annotate(total=Sum('product__price'))
+        try:
+            return self.order_product.product.annotate(total=Sum('product__price'))
+        except Exception as e:
+            print(f'ERROR: {e}')
 
     @property
     def media_per_item(self):
-        return self.order_product.all().aggregate(Avg('product__price'))
-
+        try:
+            return self.order_product.all().aggregate(Avg('product__price'))
+        except Exception as e:
+            print(f'ERROR: {e}')
 
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=55)
