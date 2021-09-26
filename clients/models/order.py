@@ -8,8 +8,7 @@ class Order(BaseModel):
     client = models.ForeignKey(
         People,
         on_delete=models.PROTECT,
-        related_name='orders',
-        verbose_name=_('client')
+            verbose_name=_('client')
     )
 
     def __str__(self):
@@ -53,13 +52,11 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name='products',
         verbose_name=_('Order')
     )
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name='order',
         verbose_name=_('Product')
     )
     quantity = models.IntegerField(_('Quantity'), default=1)
