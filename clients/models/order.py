@@ -4,6 +4,12 @@ from django.utils.translation import gettext_lazy as _
 from . import BaseModel, People
 
 
+# class OrderManager(models.Manager):
+#     def create_order(self, people):
+#         order = self.model(client=people)
+#         order.save()
+#         return order
+
 class Order(BaseModel):
     client = models.ForeignKey(
         People,
@@ -12,29 +18,32 @@ class Order(BaseModel):
     )
 
     def __str__(self):
-        return f'Order: {self.pk} - Client: {self.client.name} -- Total R$ {self.total}'
+        return f'Order: {self.pk} - Client: {self.client.name}'
+        # return f'Order: {self.pk} - Client: {self.client.name} -- Total R$ {self.total}'
 
-# TODO Aplicar com o annotate
-    @property
-    def total(self):
-        try:
-            return self.order_product.all().aggregate(Sum('product__price'))
-        except Exception as e:
-            print(f'ERROR: {e}')
 
-    @property
-    def teste(self):
-        try:
-            return self.order_product.product.annotate(total=Sum('product__price'))
-        except Exception as e:
-            print(f'ERROR: {e}')
+# # TODO Aplicar com o annotate
+#     @property
+#     def total(self):
+#         try:
+#             return self.order_product.all().aggregate(Sum('product__price'))
+#         except Exception as e:
+#             print(f'ERROR: {e}')
+#
+#     @property
+#     def teste(self):
+#         try:
+#             return self.order_product.product.annotate(total=Sum('product__price'))
+#         except Exception as e:
+#             print(f'ERROR: {e}')
+#
+#     @property
+#     def media_per_item(self):
+#         try:
+#             return self.order_product.all().aggregate(Avg('product__price'))
+#         except Exception as e:
+#             print(f'ERROR: {e}')
 
-    @property
-    def media_per_item(self):
-        try:
-            return self.order_product.all().aggregate(Avg('product__price'))
-        except Exception as e:
-            print(f'ERROR: {e}')
 
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=55)
@@ -65,7 +74,7 @@ class OrderProduct(models.Model):
         unique_together = ('order', 'product')
 
     def __str__(self):
-        return self.product
+        return self.product.name
 
     @property
     def total_per_product(self):
