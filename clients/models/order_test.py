@@ -11,7 +11,6 @@ class ItensDoPedido(models.Model):
 
 
 
-
 class Pedido(models.Model):
     cliente = models.ForeignKey('People', on_delete=models.DO_NOTHING)
 

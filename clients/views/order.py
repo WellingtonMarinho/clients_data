@@ -23,30 +23,17 @@ class OrderView(PaginationHandlerMixin, APIView):
         print('####'*88)
         print(request.data)
 
-        cliente = request.data.pop('cliente', None)
-        itens = request.data.pop('items', None)
-        product = request.data.pop('produto', None)
-        if cliente and itens and product:
-            print(request.data)
-            serializer = self.serializer_class(data={'cliente': cliente})
+        serializer = self.serializer_class(data=request.data)
 
-            if serializer.is_valid():
-                serializer.save()
-                print(serializer.error)
+        if serializer.is_valid():
+            serializer.save()
+            print()
+            print('%%%' * 88)
+            print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors, "$$$"*88)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            serializer = ItensDoPedidoSerializer(data={'items': itens})
-            if serializer.is_valid():
-                serializer.save()
-                print(serializer.error)
-            serializer = ProductSerializer(data={'produto': product})
-            if serializer.is_valid():
-                serializer.save()
-                print(serializer.error)
-
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({'Error': 'Erro desconhecido'}, status.HTTP_400_BAD_REQUEST)
 
 class ProductView(PaginationHandlerMixin, APIView):
     queryset = Product.objects.all()
