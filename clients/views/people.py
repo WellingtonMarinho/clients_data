@@ -76,8 +76,8 @@ class PeopleDetailAPIView(BaseElasticAPIView):
     serializer_class = PeopleGetSerializer
     model = People
     
-    def get(self, request, people_slug):
-        return self.detail(people_slug)
+    def get(self, request, people_sid):
+        return self.detail(people_sid)
 
     # def get(self, request, people_slug):
     #     if People.objects.filter(slug=people_slug).exists():

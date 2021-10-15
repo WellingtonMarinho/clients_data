@@ -3,7 +3,6 @@ from django.db.models import Avg, Sum
 from django_extensions.db.fields import AutoSlugField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from . import BaseModel, People
 
 
 class Product(models.Model):
@@ -25,7 +24,7 @@ class Product(models.Model):
         return self.name
 
     def absolute_url_api(self):
-        return reverse("products-detail", kwargs={'product_slug': self.slug})
+        return reverse("api:products-detail", kwargs={'product_slug': self.slug})
 
 
 class OrderItems(models.Model):
@@ -34,7 +33,11 @@ class OrderItems(models.Model):
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='items')
 
     def __str__(self):
-        return self.product.name
+        return f'{self.product.name} - {self.order.client}'
+
+    @property
+    def total_per_item(self):
+        return self.product.price * self.quantity
 
 
 class Order(models.Model):
@@ -42,3 +45,7 @@ class Order(models.Model):
 
     def __str__(self):
         return self.client.name
+
+    @property
+    def total_order(self):
+        return sum([item.total_per_item for item in self.items.all()])

@@ -38,10 +38,10 @@ class BaseElasticAPIView(PaginationHandlerMixin, APIView):
         assert self.model is not None, "BaseElasticAPIView detail requires a definition of model."
         assert self.serializer_class is not None, "BaseElasticAPIView Detail requires a definition of serializer."
 
-        slug = args
+        uuid = args
 
         try:
-            instance = self.model.objects.get(slug=slug)
+            instance = self.model.objects.get(uuid=uuid)
             serializer = self.serializer_class(instance)
             return Response(serializer.data)
 

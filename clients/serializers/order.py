@@ -1,34 +1,29 @@
 from rest_framework import serializers
 from clients.models import OrderItems, Order, Product
 from drf_writable_nested import WritableNestedModelSerializer
+from .products import ProductSerializer
 
 
-class ProductSerializer(serializers.ModelSerializer):
-    absolute_url_api = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Product
-        fields = '__all__'
-        depth = 1
-
-    def get_absolute_url_api(self, obj):
-        return obj.absolute_url_api()
 
 class OrderItemsSerializer(serializers.ModelSerializer):
-    produto = ProductSerializer()
+    product = ProductSerializer()
 
     class Meta:
         model = OrderItems
-        fields = ['product', 'quantity']
+        fields = ['product', 'quantity', 'total_per_item']
 
 
-class PedidoSerializer(serializers.ModelSerializer):
-    cliente = serializers.StringRelatedField()
+class OrderSerializer(serializers.ModelSerializer):
+    client = serializers.SerializerMethodField()
     items = OrderItemsSerializer(many=True, allow_null=True, )
+    total_order = serializers.StringRelatedField()
 
     class Meta:
         model = Order
         fields = '__all__'
+
+    def get_client(self, obj):
+        return obj.client.absolute_url_api()
 
 
 class OrderItemsPOSTSerializer(serializers.ModelSerializer):
@@ -38,7 +33,7 @@ class OrderItemsPOSTSerializer(serializers.ModelSerializer):
         fields = ['product', 'quantity']
 
 
-class PedidoPOSTSerializer(WritableNestedModelSerializer):
+class OrderPOSTSerializer(WritableNestedModelSerializer):
     items = OrderItemsPOSTSerializer(many=True, allow_null=True, )
 
     class Meta:

@@ -27,9 +27,9 @@ class ViewsPeopleTest(TestCase):
 
     def test_get_detail_object(self):
         people = People.objects.last()
-        slug = people.slug
+        sid = people.sid
 
-        response = self.client.get(f'/people/{slug}/').json()
+        response = self.client.get(f'/people/{sid}/').json()
 
         self.assertEqual(people.name, response['name'])
         self.assertEqual(people.rg, response['rg'])

@@ -6,6 +6,7 @@ from clients.utils.converters import SID2UUIDConverter
 
 register_converter(SID2UUIDConverter, 'sid')
 
+app_name = 'api'
 
 urlpatterns = [
     path('orders/', OrderAPIView.as_view(), name='order'),
@@ -14,6 +15,6 @@ urlpatterns = [
     path('products/', ProductAPIView.as_view(), name='products'),
     path('products/<slug:product_slug>/', ProductDetailAPIView.as_view(), name='products-detail'),
 
-    path('people/', PeopleAPIView.as_view(), name='search'),
-    path('people/<slug:people_slug>/', PeopleDetailAPIView.as_view(), name='search-detail'),
+    path('people/', PeopleAPIView.as_view(), name='people-search'),
+    path('people/<sid:people_sid>/', PeopleDetailAPIView.as_view(), name='people-detail'),
 ]

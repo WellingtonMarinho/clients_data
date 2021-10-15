@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from clients.models import Product, Order
-from clients.serializers.order import PedidoSerializer, ProductSerializer, PedidoPOSTSerializer
+from clients.serializers.order import OrderSerializer, ProductSerializer, OrderPOSTSerializer
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 
@@ -12,14 +12,14 @@ class OrderDetailAPIView(APIView):
 
 
 class OrderAPIView(PaginationHandlerMixin, APIView):
-    serializer_class = PedidoSerializer
+    serializer_class = OrderSerializer
     pagination_class = BasicPagination
 
     def get_serializer_class(self, request):
         if request.method == "GET":
-            return PedidoSerializer
+            return OrderSerializer
         else:
-            return PedidoPOSTSerializer
+            return OrderPOSTSerializer
 
     def get(self, request):
         queryset = Order.objects.all().order_by('-id')
