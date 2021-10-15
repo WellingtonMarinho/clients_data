@@ -7,7 +7,11 @@ from clients.serializers.order import PedidoSerializer, ProductSerializer, Pedid
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 
-class OrderView(PaginationHandlerMixin, APIView):
+class OrderDetailAPIView(APIView):
+    pass
+
+
+class OrderAPIView(PaginationHandlerMixin, APIView):
     serializer_class = PedidoSerializer
     pagination_class = BasicPagination
 
@@ -33,7 +37,7 @@ class OrderView(PaginationHandlerMixin, APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductView(PaginationHandlerMixin, APIView):
+class ProductAPIView(PaginationHandlerMixin, APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = BasicPagination

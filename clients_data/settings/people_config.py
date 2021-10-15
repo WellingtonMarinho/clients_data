@@ -29,3 +29,5 @@ TYPE_BLOOD = (
     'O+',
     'O-',
 )
+
+AGE_GROUP = ('young', 'adult', 'elderly')
