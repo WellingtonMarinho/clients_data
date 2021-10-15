@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from clients.models import Product, Pedido
+from clients.models import Product, Order
 from clients.serializers.order import PedidoSerializer, ProductSerializer, PedidoPOSTSerializer
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
@@ -22,7 +22,7 @@ class OrderAPIView(PaginationHandlerMixin, APIView):
             return PedidoPOSTSerializer
 
     def get(self, request):
-        queryset = Pedido.objects.all().order_by('-id')
+        queryset = Order.objects.all().order_by('-id')
         self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
         serializer = self.create_serializer_paginated(serializer=self.get_serializer_class(request), queryset=queryset)
         return Response(serializer.data)

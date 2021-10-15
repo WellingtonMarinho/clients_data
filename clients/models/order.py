@@ -6,40 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from . import BaseModel, People
 
 
-class Order(BaseModel):
-    client = models.ForeignKey(
-        People,
-        on_delete=models.PROTECT,
-            verbose_name=_('client')
-    )
-
-    def __str__(self):
-        return f'Order: {self.pk} - Client: {self.client.name}'
-
-
-# # TODO Aplicar com o annotate
-#     @property
-#     def total(self):
-#         try:
-#             return self.order_product.all().aggregate(Sum('product__price'))
-#         except Exception as e:
-#             print(f'ERROR: {e}')
-#
-#     @property
-#     def teste(self):
-#         try:
-#             return self.order_product.product.annotate(total=Sum('product__price'))
-#         except Exception as e:
-#             print(f'ERROR: {e}')
-#
-#     @property
-#     def media_per_item(self):
-#         try:
-#             return self.order_product.all().aggregate(Avg('product__price'))
-#         except Exception as e:
-#             print(f'ERROR: {e}')
-
-
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=55)
     price = models.DecimalField(_('Price'), max_digits=8, decimal_places=2)
@@ -50,6 +16,7 @@ class Product(models.Model):
         unique=True,
         verbose_name='Slug'
     )
+    quantity = models.PositiveIntegerField(default=1)
 
     class Meta:
         ordering = ('-id', )
@@ -61,25 +28,17 @@ class Product(models.Model):
         return reverse("products-detail", kwargs={'product_slug': self.slug})
 
 
-class OrderProduct(models.Model):
-    order = models.ForeignKey(
-        Order,
-        on_delete=models.CASCADE,
-        verbose_name=_('Order')
-    )
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        verbose_name=_('Product')
-    )
-    quantity = models.IntegerField(_('Quantity'), default=1)
-
-    class Meta:
-        unique_together = ('order', 'product')
+class OrderItems(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.DO_NOTHING)
+    quantity = models.PositiveIntegerField(default=1)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='items')
 
     def __str__(self):
         return self.product.name
 
-    @property
-    def total_per_product(self):
-        return self.product.price * self.quantity
+
+class Order(models.Model):
+    client = models.ForeignKey('People', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.client.name
