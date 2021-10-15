@@ -35,6 +35,10 @@ class ViewsPeopleTest(TestCase):
         self.assertEqual(people.rg, response['rg'])
         self.assertEqual(people.cpf, response['cpf'])
 
+    def test_absolute_url_api_detail_with_client(self):
+        response = self.client.get(self.people_to_request.absolute_url_api())
+        self.assertEqual(200, response.status_code)
+
     def test_return_itens_per_page(self):
         per_page = 15
         response = self.client.get(f'/people/?per_page={per_page}').json().get('results')
