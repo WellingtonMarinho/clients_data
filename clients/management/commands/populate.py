@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def create(self, **kwargs):
         try:
             people = ToPopulateDatabase()
-            people_list = people.build_list_of_people(250)
+            people_list = people.build_list_of_people(25)
             print('Bulk Create to Populate...')
             People.objects.bulk_create(people_list)
             print()

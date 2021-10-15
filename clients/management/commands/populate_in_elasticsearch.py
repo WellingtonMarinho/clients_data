@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for each in range(2000):
+            for each in range(300):
                 print(each)
                 people = ToPopulateDatabase()
                 people.save_people()

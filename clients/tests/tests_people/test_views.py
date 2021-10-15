@@ -25,11 +25,11 @@ class ViewsPeopleTest(TestCase):
     def test_get(self):
         self.assertEqual(200, self.client.get('/people/').status_code)
 
-    def test_get_just_one_object_with_slug_querystring(self):
+    def test_get_detail_object(self):
         people = People.objects.last()
         slug = people.slug
 
-        response = self.client.get(f'/people/?people={slug}').json()
+        response = self.client.get(f'/people/{slug}/').json()
 
         self.assertEqual(people.name, response['name'])
         self.assertEqual(people.rg, response['rg'])

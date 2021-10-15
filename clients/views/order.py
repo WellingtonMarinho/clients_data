@@ -2,30 +2,42 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from clients.models import Order, Product
-from clients.serializers.order import OrderSerializer, ProductSerializer, OrderToGetSerializer
+from clients.models import Product, Pedido
+from clients.serializers.order import PedidoSerializer, ProductSerializer, PedidoPOSTSerializer
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 
-class OrderView(PaginationHandlerMixin, APIView):
-    serializer_class = OrderSerializer
+class OrderDetailAPIView(APIView):
+    pass
+
+
+class OrderAPIView(PaginationHandlerMixin, APIView):
+    serializer_class = PedidoSerializer
     pagination_class = BasicPagination
 
+    def get_serializer_class(self, request):
+        if request.method == "GET":
+            return PedidoSerializer
+        else:
+            return PedidoPOSTSerializer
+
     def get(self, request):
-        queryset = Order.objects.all().order_by('-id')
+        queryset = Pedido.objects.all().order_by('-id')
         self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
-        serializer = self.create_serializer_paginated(serializer=OrderToGetSerializer, queryset=queryset)
+        serializer = self.create_serializer_paginated(serializer=self.get_serializer_class(request), queryset=queryset)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer_class = self.get_serializer_class(request)
+        serializer = serializer_class(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductView(PaginationHandlerMixin, APIView):
+class ProductAPIView(PaginationHandlerMixin, APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = BasicPagination
@@ -42,6 +54,23 @@ class ProductView(PaginationHandlerMixin, APIView):
             return Response(serializer.data, status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductDetailAPIView(APIView):
+    serializer_class = ProductSerializer
+
+    def get(self, request, product_slug):
+
+        if Product.objects.filter(slug=product_slug).exists():
+
+            obj = Product.objects.get(slug=product_slug)
+            serializer = self.serializer_class(obj)
+            return Response(serializer.data)
+
+        return Response(
+            data={'error': 'NotFound'},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
 
 class ProductDetailView(APIView):

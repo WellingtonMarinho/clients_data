@@ -6,6 +6,7 @@ from clients.models import People
 
 from elasticsearch_app.analyzers import brazilian_text_analyzer
 from elasticsearch_app import DocumentBase
+from elasticsearch_app.faceted_search import CreateAndModifiedFacetedSearch
 
 
 class PeopleDocument(DocumentBase):
@@ -88,7 +89,8 @@ class PeopleDocument(DocumentBase):
 
 
 
-class PeopleSearch(FacetedSearch):
+class PeopleSearch(CreateAndModifiedFacetedSearch):
+# class PeopleSearch(FacetedSearch):
     index = PeopleDocument.Index.name
     doc_types = [PeopleDocument,]
     fields = ['name_keyword^100', 'name^10', 'sign']
