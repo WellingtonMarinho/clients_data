@@ -1,14 +1,10 @@
 from django.db import models
 from django.db.models import Avg, Sum
+from django_extensions.db.fields import AutoSlugField
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from . import BaseModel, People
 
-
-# class OrderManager(models.Manager):
-#     def create_order(self, people):
-#         order = self.model(client=people)
-#         order.save()
-#         return order
 
 class Order(BaseModel):
     client = models.ForeignKey(
@@ -19,7 +15,6 @@ class Order(BaseModel):
 
     def __str__(self):
         return f'Order: {self.pk} - Client: {self.client.name}'
-        # return f'Order: {self.pk} - Client: {self.client.name} -- Total R$ {self.total}'
 
 
 # # TODO Aplicar com o annotate
@@ -49,12 +44,21 @@ class Product(models.Model):
     name = models.CharField(_('Name'), max_length=55)
     price = models.DecimalField(_('Price'), max_digits=8, decimal_places=2)
     description = models.TextField(_('Description'), max_length=255, blank=True, null=True)
+    slug = AutoSlugField(
+        populate_from=['name',],
+        editable=False,
+        unique=True,
+        verbose_name='Slug'
+    )
 
     class Meta:
         ordering = ('-id', )
 
     def __str__(self):
         return self.name
+
+    def absolute_url_api(self):
+        return reverse("products-detail", kwargs={'product_slug': self.slug})
 
 
 class OrderProduct(models.Model):
