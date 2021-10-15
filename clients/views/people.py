@@ -74,15 +74,19 @@ class PeopleAPIView(BaseElasticAPIView):
 
 class PeopleDetailAPIView(BaseElasticAPIView):
     serializer_class = PeopleGetSerializer
-
+    model = People
+    
     def get(self, request, people_slug):
-        if People.objects.filter(slug=people_slug).exists():
+        return self.detail(people_slug)
 
-            people = People.objects.get(slug=people_slug)
-            serializer = self.serializer_class(people)
-            return Response(serializer.data)
-
-        return Response(
-            data={'error': 'NotFound'},
-            status=status.HTTP_404_NOT_FOUND
-        )
+    # def get(self, request, people_slug):
+    #     if People.objects.filter(slug=people_slug).exists():
+    #
+    #         people = People.objects.get(slug=people_slug)
+    #         serializer = self.serializer_class(people)
+    #         return Response(serializer.data)
+    #
+    #     return Response(
+    #         data={'error': 'NotFound'},
+    #         status=status.HTTP_404_NOT_FOUND
+    #     )
