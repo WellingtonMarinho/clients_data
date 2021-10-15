@@ -5,8 +5,7 @@ from rest_framework import status
 from clients.utils import BasicPagination, PaginationHandlerMixin
 from elasticsearch_app import ElasticSearchConnection
 from clients.utils.exceptions import ElasticSearchDocumentNotFound, ElasticSearchEngineClassNotFound
-from clients.utils.validators import (validation_max_results, validation_boolean, validation_format_date,
-                                      validation_sex_choice, validation_age_group)
+from clients.utils.validators import (validation_max_results, validation_boolean, validation_format_date)
 
 
 class BaseElasticAPIView(PaginationHandlerMixin, APIView):
@@ -19,16 +18,19 @@ class BaseElasticAPIView(PaginationHandlerMixin, APIView):
     elastic_search_engine_class = None
     open_api_documentation = None
 
+    def create_filters(self, request):
+        filters = dict(
+            active=validation_boolean(request.GET.get('boolean', None), 'active'),
+            created_at=validation_format_date(request.GET.get('created_at', None), 'created_at'),
+            modified_at=validation_format_date(request.GET.get('modified_at', None), 'modified_at'),)
+        return filters
+
     def search_params(self, request, **kwargs):
+        filters = self.create_filters(request)
         return dict(
             query=request.GET.get('q'),
-            filters={'active': validation_boolean(request.GET.get('boolean', None), 'active')},
+            filters=filters,
             sort=self.elastic_sort,
-            created_at=validation_format_date(request.GET.get('created_at', None), 'created_at'),
-            modified_at=validation_format_date(request.GET.get('modified_at', None), 'modified_at'),
-            age_group=validation_age_group(request.GET.get('age')),
-            sex=validation_sex_choice(request.GET.get('sex')),
-
             params=None,
         )
 
