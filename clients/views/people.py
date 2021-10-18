@@ -3,24 +3,15 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from elasticsearch_app import ElasticSearchConnection
 from clients.document import PeopleSearch, PeopleDocument
 from clients.serializers import PeopleGetSerializer, PeoplePostSerializer
 from clients.models import People
 from base.utils import BasicPagination, PaginationHandlerMixin
 from clients_data.settings import ELASTICSEARCH_PEOPLE_VIEW_OPENAPI
-from base.utils import (validation_max_results, validation_boolean, validation_format_date,
-                                      validation_sex_choice, validation_age_group)
-
-
+from base.utils import validation_age_group
 from .base_for_api_search import BaseElasticAPIView
-
-
-
-
-
-
 
 
 # class PeopleDetailAPIView(APIView):

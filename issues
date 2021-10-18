@@ -2,4 +2,7 @@ Itens que precisam ser aprimorados e/ou implementados.
 
 
 Implementações:
+    Implementar sistema de autenticação
+    Implementar Pydantic
     LOG
+    Implementações de envio de e-mail

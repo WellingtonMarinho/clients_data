@@ -22,7 +22,7 @@ from clients_data import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('clients/', include('clients.urls', namespace='clients')),
-    path('orders/', include('order.urls', namespace='orders')),
+    path('', include('order.urls', namespace='orders')),
 
     # Swagger OpenAPI
     path('schema', SpectacularAPIView.as_view(), name='schema'),
