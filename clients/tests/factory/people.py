@@ -14,5 +14,5 @@ class PeopleFactory(DjangoModelFactory):
     cpf = factory.Faker('cpf', locale='pt_BR')
     email = factory.Faker('email')
     sex = factory.Iterator(['feminino', 'masculino'])
-    sign = factory.lazy_attribute(lambda obj: )
+    sign = factory.lazy_attribute(lambda obj: obj)
 

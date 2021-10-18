@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from order.models import Product, Order
-from order.serializers.order import OrderSerializer, ProductSerializer, OrderPOSTSerializer
+from order.serializers import OrderSerializer, ProductSerializer, OrderPOSTSerializer, ProductDetailSerializer
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 
@@ -57,7 +57,7 @@ class ProductAPIView(PaginationHandlerMixin, APIView):
 
 
 class ProductDetailAPIView(APIView):
-    serializer_class = ProductSerializer
+    serializer_class = ProductDetailSerializer
 
     def get(self, request, product_slug):
 
