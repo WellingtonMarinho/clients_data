@@ -7,7 +7,7 @@ from django_extensions.db.fields import AutoSlugField
 from django.db.models import signals
 from django.conf import settings
 from django.dispatch import receiver
-from . import BaseModel
+from base.models import BaseModel
 from elasticsearch_app import ElasticSearchConnection
 
 

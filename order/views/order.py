@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from order.models import Product, Order
 from order.serializers import OrderSerializer, ProductSerializer, OrderPOSTSerializer, ProductDetailSerializer
-from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
+from base.utils import PaginationHandlerMixin, BasicPagination
 
 
 class OrderDetailAPIView(APIView):

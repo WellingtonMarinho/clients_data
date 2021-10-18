@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .people_generator import ToPopulateDatabase
+from clients.tests.factories.people_generator import ToPopulateDatabase
 
 
 class TestPeopleGenerator(TestCase):

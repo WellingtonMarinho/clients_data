@@ -1,6 +1,6 @@
 from django.urls import path, register_converter
 from order.views import (ProductAPIView, OrderAPIView, OrderDetailAPIView, ProductDetailAPIView)
-from clients.utils.converters import SID2UUIDConverter
+from base.utils import SID2UUIDConverter
 
 
 register_converter(SID2UUIDConverter, 'sid')
