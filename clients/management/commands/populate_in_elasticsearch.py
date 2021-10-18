@@ -1,6 +1,10 @@
+import logging
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext_lazy as _ 
-from clients.utils.people_generator import ToPopulateDatabase
+from clients.tests.factories.people_generator import PeopleGenerator
+
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -8,10 +12,12 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for each in range(100):
-                people = ToPopulateDatabase()
+            for each in range(300):
+                print(each)
+                people = PeopleGenerator()
                 people.save_people()
-                print('Success')
+            print('Success in populate database.')
+            logger.info('Success in populate database.')
 
         except Exception as e:
             print('Erro ao executar comando')

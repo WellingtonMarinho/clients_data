@@ -1,40 +1,27 @@
+import logging
 from datetime import datetime, date
 from django.db import models, transaction
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from django.db.models import signals
+from django.conf import settings
 from django.dispatch import receiver
-from . import BaseModel
+from base.models import BaseModel
 from elasticsearch_app import ElasticSearchConnection
 
 
-class People(BaseModel):
-    SEX = (
-        ('feminino', 'feminino'),
-        ('masculino', 'masculino'),
+logger = logging.getLogger(__name__)
 
-    )
-    SIGN = (
-        ('Áries', 'Áries'),
-        ('Touro', 'Touro'),
-        ('Gêmeos', 'Gêmeos'),
-        ('Câncer', 'Câncer'),
-        ('Leão', 'Leão'),
-        ('Virgem', 'Virgem'),
-        ('Libra', 'Libra'),
-        ('Escorpião', 'Escorpião'),
-        ('Sagitário', 'Sagitário'),
-        ('Capricórnio', 'Capricórnio'),
-        ('Aquário', 'Aquário'),
-        ('Peixes', 'Peixes'),
-    )
+
+class People(BaseModel):
     name = models.CharField(_('Name'), max_length=255)
     cpf = models.CharField('CPF', max_length=14)
     rg = models.CharField('RG', max_length=12)
     birth_date = models.DateField(_('Birth date'))
     slug = AutoSlugField(populate_from='name', unique=True)
-    sex = models.CharField(_('Sex'), choices=SEX, max_length=9)
-    sign = models.CharField(_('Sign'), max_length=15, choices=SIGN)
+    sex = models.CharField(_('Sex'), choices=settings.SEX, max_length=9)
+    sign = models.CharField(_('Sign'), max_length=15, choices=settings.SIGN)
     mother_name = models.CharField(_('Mother Name'), max_length=255)
     father_name = models.CharField(_('Father Name'), max_length=250)
     email = models.EmailField('Email')
@@ -63,7 +50,6 @@ class People(BaseModel):
             born = self.birth_date
             today = date.today()
             return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-
 
     @property
     def imc(self):
@@ -98,6 +84,10 @@ class People(BaseModel):
     def all_fields(self):
         return sorted(vars(self).items())
 
+    def absolute_url_api(self):
+        return reverse('clients:people-detail', kwargs={'people_sid': self.uuid})
+
+
 def on_transaction_commit(func):
     """
     Decorator to run signals only after transaction commit
@@ -119,16 +109,17 @@ def on_transaction_commit(func):
 @on_transaction_commit
 def people_index(sender, instance, created, **kwargs):
 
-    print(f'Try indexing:: {instance.pk} - {instance.name}')
+    logger.info(f'Try indexing:: {instance.pk} - {instance.name}')
 
     from clients.document import PeopleDocument
 
     try:
         with ElasticSearchConnection(PeopleDocument):
             document = PeopleDocument.build_document(instance=instance)
-            print(f'DOCUMENT:::-> {document}')
             document and document.save()
+            logger.info(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
             print(f'Indexing:: {instance.pk} - {instance.name} === SUCCESS')
 
     except Exception as e:
+        logger.error(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')
         print(f'Indexing {instance.pk} - {instance.name} - FAIL.\nErro: {e}\n\n')

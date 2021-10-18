@@ -1,20 +1,20 @@
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 from clients.models import People
 from fordev.validators import is_valid_cpf, is_valid_rg
 
 
-class PeopleSerializer(serializers.ModelSerializer):
+class PeoplePostSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = People
         fields = [
             'name',
-            'age',
             'cpf',
             'rg',
             'slug',
             'birth_date',
-            'age_group',
             'sex',
             'sign',
             'mother_name',
@@ -30,9 +30,9 @@ class PeopleSerializer(serializers.ModelSerializer):
         ]
 
     def validate_name(self, obj):
-        if not obj.replace(' ', '').isalpha():
-            raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
-        return obj.title()
+        if obj.replace(' ', '').isalpha():
+            return obj.title()
+        raise ValidationError('Campo nome não pode conter números ou caracteres especiais.')
 
     def validate_cpf(self, cpf):
         if is_valid_cpf(cpf):
@@ -44,17 +44,31 @@ class PeopleSerializer(serializers.ModelSerializer):
             return rg
         raise ValidationError('RG não é válido.')
 
+    def validate_sex(self, obj):
+        if obj in [sex for sex in settings.SEX]:
+            return obj
+        raise ValidationError('Sexo inválido.')
 
-class PeopleSearchSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    search_boost = serializers.CharField()
+    def validate_sign(self, obj):
+        if obj in [sign[0] for sign in settings.SIGN]:
+            return obj
+        raise ValidationError('Signo inválido.')
+
+    def validate_type_blood(self, obj):
+        if obj in [type_blood for type_blood in settings.TYPE_BLOOD]:
+            return obj
+        raise ValidationError('Tipo sanguíneo inválido.')
+
+
+class PeopleGetSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    search_boost = serializers.CharField(read_only=True)
     name = serializers.CharField(max_length=255)
-    age = serializers.IntegerField()
+    age = serializers.IntegerField(read_only=True)
     cpf = serializers.CharField(max_length=14)
     rg = serializers.CharField(max_length=12)
-    slug = serializers.SlugField()
-    birth_date = serializers.DateTimeField()
-    age_group = serializers.CharField()
+    slug = serializers.SlugField(read_only=True)
+    age_group = serializers.CharField(read_only=True)
     sex = serializers.CharField(max_length=9)
     sign = serializers.CharField(max_length=15)
     mother_name = serializers.CharField(max_length=255)
@@ -64,7 +78,8 @@ class PeopleSearchSerializer(serializers.Serializer):
     mobile = serializers.CharField(max_length=20)
     height = serializers.FloatField()
     weight = serializers.IntegerField()
-    weight_range = serializers.CharField()
-    imc = serializers.FloatField()
+    weight_range = serializers.CharField(read_only=True)
+    imc = serializers.FloatField(read_only=True)
     type_blood = serializers.CharField(max_length=3)
     favorite_color = serializers.CharField(max_length=20)
+    absolute_url_api = serializers.CharField(max_length=80)

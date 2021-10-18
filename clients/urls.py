@@ -1,10 +1,14 @@
-from django.urls import path
-from clients.views import ElasticSearchPeopleView, ProductView, OrderView, ProductDetailView
+from django.urls import path, register_converter
+from clients.views import PeopleAPIView, PeopleDetailAPIView
+from base.utils import SID2UUIDConverter
+
+
+register_converter(SID2UUIDConverter, 'sid')
+
+app_name = 'clients'
+
 
 urlpatterns = [
-    # path('orders/', CreateOrder.as_view(), name='order'),
-    path('orders/', OrderView.as_view(), name='order'),
-    path('products/', ProductView.as_view(), name='products'),
-    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
-    path('elastic/', ElasticSearchPeopleView.as_view(), name='search'),
+    path('', PeopleAPIView.as_view(), name='people-search'),
+    path('<sid:people_sid>/', PeopleDetailAPIView.as_view(), name='people-detail'),
 ]

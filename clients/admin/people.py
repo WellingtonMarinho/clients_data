@@ -4,10 +4,18 @@ from clients.models import People
 
 @admin.register(People)
 class PeopleAdmin(admin.ModelAdmin):
+
     search_fields = ['name', 'cpf', 'rg']
     list_display = ['pk', 'name', 'age', 'email']
     list_display_links = ['name', ]
     fieldsets = (
+        ('Settings Infos', {
+            'fields': (
+                'uuid',
+                'id',
+                'slug'
+            )
+        }),
         ('Person data', {
             'fields': (
                 'name',
@@ -42,4 +50,4 @@ class PeopleAdmin(admin.ModelAdmin):
 
         })
     )
-    readonly_fields = ['age', 'imc', 'age_group']
+    readonly_fields = ['age', 'imc', 'age_group', 'id', 'uuid', 'slug', 'type_blood']
