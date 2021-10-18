@@ -82,3 +82,4 @@ class PeopleGetSerializer(serializers.Serializer):
     imc = serializers.FloatField(read_only=True)
     type_blood = serializers.CharField(max_length=3)
     favorite_color = serializers.CharField(max_length=20)
+    absolute_url_api = serializers.CharField(max_length=80)

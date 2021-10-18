@@ -1,19 +1,19 @@
 import logging
 from datetime import datetime, date
 from django.db import models, transaction
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from django.db.models import signals
 from django.conf import settings
 from django.dispatch import receiver
-from . import BaseModel
+from base.models import BaseModel
 from elasticsearch_app import ElasticSearchConnection
 
 
 logger = logging.getLogger(__name__)
 
 
-# TODO Research about shortuuid
 class People(BaseModel):
     name = models.CharField(_('Name'), max_length=255)
     cpf = models.CharField('CPF', max_length=14)
@@ -83,6 +83,10 @@ class People(BaseModel):
     @property
     def all_fields(self):
         return sorted(vars(self).items())
+
+    def absolute_url_api(self):
+        return reverse('clients:people-detail', kwargs={'people_sid': self.uuid})
+
 
 def on_transaction_commit(func):
     """

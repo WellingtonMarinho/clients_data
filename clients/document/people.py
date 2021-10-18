@@ -80,6 +80,7 @@ class PeopleDocument(DocumentBase):
                 type_blood=instance.type_blood,
                 favorite_color=instance.favorite_color,
                 search_boost=search_boost,
+                absolute_url_api=instance.absolute_url_api()
             )
             return document
 

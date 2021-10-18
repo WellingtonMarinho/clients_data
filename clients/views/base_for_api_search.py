@@ -2,10 +2,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from clients.utils import BasicPagination, PaginationHandlerMixin
+from base.utils import BasicPagination, PaginationHandlerMixin
 from elasticsearch_app import ElasticSearchConnection
-from clients.utils.exceptions import ElasticSearchDocumentNotFound, ElasticSearchEngineClassNotFound
-from clients.utils.validators import (validation_max_results, validation_boolean, validation_format_date)
+from base.utils.exceptions import ElasticSearchDocumentNotFound, ElasticSearchEngineClassNotFound
+from base.utils.validators import (validation_max_results, validation_boolean, validation_format_date)
 
 
 class BaseElasticAPIView(PaginationHandlerMixin, APIView):
@@ -38,10 +38,10 @@ class BaseElasticAPIView(PaginationHandlerMixin, APIView):
         assert self.model is not None, "BaseElasticAPIView detail requires a definition of model."
         assert self.serializer_class is not None, "BaseElasticAPIView Detail requires a definition of serializer."
 
-        slug = args
+        uuid = args
 
         try:
-            instance = self.model.objects.get(slug=slug)
+            instance = self.model.objects.get(uuid=uuid)
             serializer = self.serializer_class(instance)
             return Response(serializer.data)
 

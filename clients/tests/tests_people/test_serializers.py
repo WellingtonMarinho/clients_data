@@ -140,7 +140,8 @@ class SerializerPeopleRetrieveTest(TestCase):
             'weight_range',
             'imc',
             'type_blood',
-            'favorite_color'
+            'favorite_color',
+            'absolute_url_api'
         ]
         result = self.serializer_retrieve.data
         self.assertEqual(set(expected), set(result.keys()))

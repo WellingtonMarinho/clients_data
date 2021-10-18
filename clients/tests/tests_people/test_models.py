@@ -59,3 +59,4 @@ class ModelsPeopleTest(TestCase):
             with self.subTest():
                 self.people.weight = weight
                 self.assertEqual(self.people.weight_range, expected)
+
