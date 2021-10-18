@@ -12,7 +12,7 @@ class Command(BaseCommand):
             instance = ProductsGenerator()
             products_list = instance.create_products()
             Product.objects.bulk_create(products_list)
-            print('Populate success')
+            print('Populate products success')
 
         except Exception as e:
             print(f'Error ::: {e}')

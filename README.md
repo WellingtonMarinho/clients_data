@@ -9,6 +9,7 @@
     docker-build
     docker-up
     docker-manage
+    docker-manage populate_all_models
     docker-bash
 
 ### For run Django commands:
@@ -17,6 +18,8 @@
 ### For run populate database
     $ docker container exec -ti django_app python manage.py populate
     $ docker container exec -ti django_app python manage.py populate_in_elasticsearch
+    $ docker container exec -ti django_app python manage.py create_products
+    $ docker container exec -ti django_app python manage.py create_orders
 
 ### For clear and reindexing documents in elasticsearch
     $ docker container exec -ti django_app python manage.py search -c

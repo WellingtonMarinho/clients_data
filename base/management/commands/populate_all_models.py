@@ -10,9 +10,11 @@ class Command(BaseCommand):
             people = populate_in_elasticsearch()
             people.handle()
             print('::: PEOPLE CREATEAD')
+
             product = create_products()
             product.handle()
             print('::: PRODUCT CREATEAD')
+
             order = create_order()
             order.handle()
             print('::: ORDER CREATEAD')

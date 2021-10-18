@@ -14,7 +14,7 @@ class Command(BaseCommand):
                 instance = OrderGenerator()
                 instance.create_order()
 
-            print('Populate success')
+            print('Populate order success')
 
         except Exception as e:
             print(f'Error ::: {e}')
