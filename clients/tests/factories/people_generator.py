@@ -3,7 +3,7 @@ from clients.models import People
 from random import randint, choices
 
 
-class ToPopulateDatabase:
+class PeopleGenerator:
     def sex_and_age(self):
         SEX = ['F', 'M']
         sex = choices(SEX)[0]

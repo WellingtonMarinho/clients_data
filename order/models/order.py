@@ -5,6 +5,10 @@ from django_extensions.db.fields import AutoSlugField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+cores = (
+    ('V', 'Verde'),
+    ('a', 'azul')
+)
 
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=55)
@@ -17,6 +21,7 @@ class Product(models.Model):
         verbose_name='Slug'
     )
     quantity = models.PositiveIntegerField(default=1)
+    #TODO implementar possibilidade de variação.
 
     class Meta:
         ordering = ('-id', )

@@ -29,7 +29,9 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS= ['127.0.0.1', '.localhost', '.herokuapp.com']
 
-INTERNAL_IPS = ['127.0.0.1', '.localhost', '172.18.0.1', '172.21.0.1']
+# For search docker IP run:
+# $ docker inspect django_container_name | grep -e '"Gateway"'
+INTERNAL_IPS = ['127.0.0.1', '.localhost', '172.19.0.1', '172.21.0.1']
 
 # Application definition
 
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
     'elasticsearch_app',
     'clients',
     'order',
+    'base',
     'debug_toolbar',
 ]
 

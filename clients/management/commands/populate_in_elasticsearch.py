@@ -1,7 +1,7 @@
 import logging
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext_lazy as _ 
-from clients.utils.people_generator import ToPopulateDatabase
+from clients.tests.factories.people_generator import PeopleGenerator
 
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ class Command(BaseCommand):
         try:
             for each in range(300):
                 print(each)
-                people = ToPopulateDatabase()
+                people = PeopleGenerator()
                 people.save_people()
             print('Success in populate database.')
             logger.info('Success in populate database.')

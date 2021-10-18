@@ -1,17 +1,19 @@
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext_lazy as _
-from order.tests.factories import ProductsGenerator
-from order.models import Product
+from order.tests.factories import OrderGenerator
 
+
+QUANTITY_OF_ORDERS = 150
 
 class Command(BaseCommand):
-    help = _('Create products')
+    help = _('Create orders')
 
     def create(self, **kwargs):
         try:
-            instance = ProductsGenerator()
-            products_list = instance.create_products()
-            Product.objects.bulk_create(products_list)
+            for _ in range(QUANTITY_OF_ORDERS):
+                instance = OrderGenerator()
+                instance.create_order()
+
             print('Populate success')
 
         except Exception as e:
