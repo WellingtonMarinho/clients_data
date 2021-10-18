@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'elasticsearch_app',
     'clients',
+    'order',
     'debug_toolbar',
 ]
 

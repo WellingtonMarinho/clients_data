@@ -1,7 +1,7 @@
 from django.test import TestCase
-from clients.models import People, Order, OrderItems, Product
+from order.models import People, Order, OrderItems, Product
 from clients.utils.people_generator import ToPopulateDatabase
-from clients.serializers import OrderSerializer, OrderPOSTSerializer
+from order.serializers import OrderSerializer, OrderPOSTSerializer
 
 
 class OrderSerializerTestCase(TestCase):

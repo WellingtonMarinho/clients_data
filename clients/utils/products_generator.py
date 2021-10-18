@@ -1,4 +1,4 @@
-from clients.models.order import Product
+from order.models.order import Product
 
 
 class ProductsGenerator:

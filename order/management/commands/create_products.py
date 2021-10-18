@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.translation import gettext_lazy as _
 from clients.utils.products_generator import ProductsGenerator
-from clients.models import Product
+from order.models import Product
 
 
 class Command(BaseCommand):

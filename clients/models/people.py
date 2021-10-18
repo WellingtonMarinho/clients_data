@@ -85,7 +85,7 @@ class People(BaseModel):
         return sorted(vars(self).items())
 
     def absolute_url_api(self):
-        return reverse('api:people-detail', kwargs={'people_sid': self.uuid})
+        return reverse('clients:people-detail', kwargs={'people_sid': self.uuid})
 
 
 def on_transaction_commit(func):

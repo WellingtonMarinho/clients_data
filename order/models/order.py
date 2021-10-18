@@ -1,3 +1,4 @@
+from clients.models import People
 from django.db import models
 from django.db.models import Avg, Sum
 from django_extensions.db.fields import AutoSlugField
@@ -24,7 +25,7 @@ class Product(models.Model):
         return self.name
 
     def absolute_url_api(self):
-        return reverse("api:products-detail", kwargs={'product_slug': self.slug})
+        return reverse("orders:products-detail", kwargs={'product_slug': self.slug})
 
 
 class OrderItems(models.Model):
@@ -41,7 +42,7 @@ class OrderItems(models.Model):
 
 
 class Order(models.Model):
-    client = models.ForeignKey('People', on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(People, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.client.name

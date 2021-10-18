@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from clients.models import OrderItems, Order
 from drf_writable_nested import WritableNestedModelSerializer
+from order.models import OrderItems, Order
 from .products import ProductSerializer
 
 

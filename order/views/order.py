@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from clients.models import Product, Order
-from clients.serializers.order import OrderSerializer, ProductSerializer, OrderPOSTSerializer
+from order.models import Product, Order
+from order.serializers.order import OrderSerializer, ProductSerializer, OrderPOSTSerializer
 from clients.utils.api_pagination import PaginationHandlerMixin, BasicPagination
 
 

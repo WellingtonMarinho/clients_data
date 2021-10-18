@@ -1,7 +1,6 @@
 from django.test import TestCase
-from clients.models import People, Order, OrderItems, Product
+from order.models import People, Order, OrderItems, Product
 from clients.utils.people_generator import ToPopulateDatabase
-
 
 
 class OrderModelTestCase(TestCase):
@@ -30,4 +29,3 @@ class OrderModelTestCase(TestCase):
         result = self.order.total_order
         expected = sum([item.total_per_item for item in self.order.items.all()])
         self.assertEqual(result, expected)
-
