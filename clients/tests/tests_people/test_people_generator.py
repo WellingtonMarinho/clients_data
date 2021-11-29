@@ -1,10 +1,10 @@
 from django.test import TestCase
-from clients.tests.factories.people_generator import ToPopulateDatabase
+from clients.tests.factories.people_generator import PeopleGenerator
 
 
 class TestPeopleGenerator(TestCase):
     def setUp(self) -> None:
-        self.populate = ToPopulateDatabase()
+        self.populate = PeopleGenerator()
 
     def test_sex_and_age(self):
         sexs_and_ages = []

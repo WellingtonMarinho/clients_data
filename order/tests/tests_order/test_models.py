@@ -1,12 +1,12 @@
 from django.test import TestCase
 from order.models import People, Order, OrderItems, Product
-from clients.utils.people_generator import ToPopulateDatabase
+from clients.tests.factories.people_generator import PeopleGenerator
 
 
 class OrderModelTestCase(TestCase):
 
     def setUp(self):
-        to_people = ToPopulateDatabase()
+        to_people = PeopleGenerator()
         data_people = to_people.build_people()
         self.people = People.objects.create(**data_people)
         self.product = Product.objects.create(name='Xbox', price=5550.36)
