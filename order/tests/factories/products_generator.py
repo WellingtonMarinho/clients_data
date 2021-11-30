@@ -16,7 +16,7 @@ class ProductsGenerator:
             dict(name='Pen drive 32GB', price= 50, description=''),
             dict(name='Celular', price=1000, description=''),
             dict(name='Garrafa Térmica', price=40, description=''),
-
+            dict(name='Cadeira Gamer', price=40, description=''),
         ]
 
     def create_products(self):

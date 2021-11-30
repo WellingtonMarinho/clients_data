@@ -20,7 +20,7 @@ class Command(BaseCommand):
             logger.info('Success in populate database.')
 
         except Exception as e:
-            print('Erro ao executar comando')
+            logger.warning(e)
     
 
     def handle(self, **options):

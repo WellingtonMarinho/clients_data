@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from clients.management.commands.populate_in_elasticsearch import Command as populate_in_elasticsearch
 from order.management.commands.create_products import Command as create_products
-from order.management.commands.create_order import Command as create_order
+from order.management.commands.create_orders import Command as create_order
 
 
 class Command(BaseCommand):
