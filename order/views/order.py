@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
+
 from order.models import Product, Order
 from order.serializers import OrderSerializer, ProductSerializer, OrderPOSTSerializer, ProductDetailSerializer
 from base.utils import PaginationHandlerMixin, BasicPagination
@@ -21,12 +23,14 @@ class OrderAPIView(PaginationHandlerMixin, APIView):
         else:
             return OrderPOSTSerializer
 
+    @extend_schema(responses=serializer_class)
     def get(self, request):
         queryset = Order.objects.all().order_by('-id')
         self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
         serializer = self.create_serializer_paginated(serializer=self.get_serializer_class(request), queryset=queryset)
         return Response(serializer.data)
 
+    @extend_schema(request=OrderPOSTSerializer)
     def post(self, request):
         serializer_class = self.get_serializer_class(request)
         serializer = serializer_class(data=request.data)
@@ -42,11 +46,13 @@ class ProductAPIView(PaginationHandlerMixin, APIView):
     serializer_class = ProductSerializer
     pagination_class = BasicPagination
 
+    @extend_schema(responses=serializer_class)
     def get(self, request):
         self.pagination_class.page_size = int(request.GET.get('per_page', self.pagination_class.page_size))
         serializer = self.create_serializer_paginated()
         return Response(serializer.data)
 
+    @extend_schema(request=serializer_class)
     def post(self, request):
         serializer = self.serializer_class(request.data)
         if serializer.is_valid():
@@ -59,6 +65,7 @@ class ProductAPIView(PaginationHandlerMixin, APIView):
 class ProductDetailAPIView(APIView):
     serializer_class = ProductDetailSerializer
 
+    @extend_schema(request=serializer_class)
     def get(self, request, product_slug):
 
         if Product.objects.filter(slug=product_slug).exists():
