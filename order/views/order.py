@@ -1,11 +1,10 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
 from order.models import Product, Order
-from order.serializers import OrderSerializer, ProductSerializer, OrderPOSTSerializer, ProductDetailSerializer
+from order.serializers import OrderSerializer, ProductSerializer, OrderPOSTSerializer
 from base.utils import PaginationHandlerMixin, BasicPagination
 
 
@@ -60,33 +59,3 @@ class ProductAPIView(PaginationHandlerMixin, APIView):
             return Response(serializer.data, status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProductDetailAPIView(APIView):
-    serializer_class = ProductDetailSerializer
-
-    @extend_schema(request=serializer_class)
-    def get(self, request, product_slug):
-
-        if Product.objects.filter(slug=product_slug).exists():
-
-            obj = Product.objects.get(slug=product_slug)
-            serializer = self.serializer_class(obj)
-            return Response(serializer.data)
-
-        return Response(
-            data={'error': 'NotFound'},
-            status=status.HTTP_404_NOT_FOUND
-        )
-
-
-class ProductDetailView(APIView):
-
-    def get_object(self, pk):
-        return get_object_or_404(Product, id=pk)
-
-    def get(self, request, pk):
-        product = self.get_object(pk)
-        serializer = ProductSerializer(product, many=False)
-
-        return Response(serializer.data)

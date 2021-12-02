@@ -13,6 +13,7 @@ drf-spectacular==0.15.0
 drf_writable_nested==0.6.3
 elasticsearch==7.0.2
 elasticsearch-dsl==7.0.0
+ipython==7.30.1
 factory-boy==3.2.0
 Faker==8.5.1
 fordev==1.0.3

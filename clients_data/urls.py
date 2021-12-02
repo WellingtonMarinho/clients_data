@@ -22,7 +22,7 @@ from clients_data import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('clients/', include('clients.urls', namespace='clients')),
-    path('api/', include('order.urls', namespace='api-')),
+    path('api/', include('order.urls', namespace='api')),
     path('', include('order.web.urls', namespace='orders')),
 
     # Swagger OpenAPI

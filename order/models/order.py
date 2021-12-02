@@ -26,7 +26,7 @@ class Product(BaseModel):
         return self.name
 
     def absolute_url_api(self):
-        return reverse("orders:products-detail", kwargs={'product_slug': self.slug})
+        return reverse("api:products-detail", kwargs={'product_slug': self.slug})
 
 
 class OrderItems(BaseModel):
