@@ -43,10 +43,10 @@ class OrderItems(BaseModel):
 
 
 class Order(models.Model):
-    client = models.ForeignKey(People, on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(People, on_delete=models.DO_NOTHING, related_name='orders')
 
     def __str__(self):
-        return self.client.name
+        return f'{self.client.name} -- R$ {self.total_order}'
 
     @property
     def total_order(self):
