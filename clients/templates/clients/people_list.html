@@ -1,15 +1,80 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>People</title>
 </head>
-<body>
 
-{% for person in persons %}
-{{ person.name }} -- 
-{{ person.sign}}
-<br>
-{% endfor %}
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">DJShop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Principais vendedores</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Pedidos</a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="#">Sobre Nós</a>
+                </li>
+              </ul>
+              
+            </div>
+            <form class="form d-flex my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary m-2 my-sm-0" type="submit">Buscar</button>
+              </form>
+        </div>
+    </nav>
+    <div class="container">
+        
+        <h1 class="mt-3">Principais Vendedores</h1>
+        
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"> Nome: </th>
+                    <th scope="col"> Signo: </th>
+                    <th scope="col"> Data de Nascimento: </th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for person in persons %}
+                <tr>
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.sign}}</td>
+                    <td>{{ person.birth_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <br>
+        </table>
+        
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            Rodapé do site
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="{% static 'js/scripts.js'  %}"></script>
 </body>
+
 </html>
