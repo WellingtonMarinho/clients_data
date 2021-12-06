@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+</head>
+<body>
+
+{% for person in persons %}
+{{ person.name }} -- 
+{{ person.sign}}
+<br>
+{% endfor %}
+</body>
+</html>
