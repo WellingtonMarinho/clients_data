@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import OrderView
+from order.web.views import OrderView
 
 
 app_name = 'order:web'

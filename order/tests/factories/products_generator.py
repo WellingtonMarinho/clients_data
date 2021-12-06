@@ -32,4 +32,4 @@ class ProductsGenerator:
 
     def save_data(self):
         products_list = self.create_products()
-        Product.objects.bulk_create(products_list)
+        return Product.objects.bulk_create(products_list)
