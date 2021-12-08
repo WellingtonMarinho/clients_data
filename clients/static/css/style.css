@@ -1,4 +1,12 @@
-
 h1 {
-    color: red;
+    color: #ea1d2c;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #ea1d2c;
+}
+
+.carosel-image-places-countries {
+    height: 55vh; 
+    width: 100vw;
 }
