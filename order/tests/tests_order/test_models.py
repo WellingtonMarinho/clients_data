@@ -1,12 +1,12 @@
 from django.test import TestCase
 from order.models import People, Order, OrderItems, Product
-from clients.utils.people_generator import ToPopulateDatabase
+from clients.tests.factories.people_generator import PeopleGenerator
 
 
 class OrderModelTestCase(TestCase):
 
     def setUp(self):
-        to_people = ToPopulateDatabase()
+        to_people = PeopleGenerator()
         data_people = to_people.build_people()
         self.people = People.objects.create(**data_people)
         self.product = Product.objects.create(name='Xbox', price=5550.36)
@@ -14,7 +14,8 @@ class OrderModelTestCase(TestCase):
         self.order_item = OrderItems.objects.create(product=self.product, order=self.order, quantity=666)
 
     def test_str_order(self):
-        self.assertEqual(str(self.order), str(self.people))
+        dunder_str = f'{self.order.client.name} -- R$ {self.order.total_order}'
+        self.assertEqual(str(self.order), dunder_str)
 
     def test_str_order_items(self):
         dunder_str = f'{self.product.name} - {self.order.client}'

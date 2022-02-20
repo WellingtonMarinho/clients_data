@@ -4,7 +4,6 @@ from order.models import OrderItems, Order
 from .products import ProductSerializer
 
 
-
 class OrderItemsSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
 

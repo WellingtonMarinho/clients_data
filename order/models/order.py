@@ -1,12 +1,12 @@
 from clients.models import People
 from django.db import models
-from django.db.models import Avg, Sum
+from base.models.base import BaseModel
 from django_extensions.db.fields import AutoSlugField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
-class Product(models.Model):
+class Product(BaseModel):
     name = models.CharField(_('Name'), max_length=55)
     price = models.DecimalField(_('Price'), max_digits=8, decimal_places=2)
     description = models.TextField(_('Description'), max_length=255, blank=True, null=True)
@@ -26,10 +26,10 @@ class Product(models.Model):
         return self.name
 
     def absolute_url_api(self):
-        return reverse("orders:products-detail", kwargs={'product_slug': self.slug})
+        return reverse("api:products-detail", kwargs={'product_slug': self.slug})
 
 
-class OrderItems(models.Model):
+class OrderItems(BaseModel):
     product = models.ForeignKey('Product', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(default=1)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='items')
@@ -43,10 +43,10 @@ class OrderItems(models.Model):
 
 
 class Order(models.Model):
-    client = models.ForeignKey(People, on_delete=models.DO_NOTHING)
+    client = models.ForeignKey(People, on_delete=models.DO_NOTHING, related_name='orders')
 
     def __str__(self):
-        return self.client.name
+        return f'{self.client.name} -- R$ {self.total_order}'
 
     @property
     def total_order(self):

@@ -64,9 +64,7 @@ class PeopleGenerator:
     def save_people(self):
         try:
             data = self.build_people()
-            people = People.objects.create(**data)
-        
-            return people.save()
+            return People.objects.create(**data)
             
         except Exception as e:
             print(f'Error save_people ::: {e}')

@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for each in range(300):
+            for each in range(80):
                 print(each)
                 people = PeopleGenerator()
                 people.save_people()
@@ -20,7 +20,7 @@ class Command(BaseCommand):
             logger.info('Success in populate database.')
 
         except Exception as e:
-            print('Erro ao executar comando')
+            logger.warning(e)
     
 
     def handle(self, **options):

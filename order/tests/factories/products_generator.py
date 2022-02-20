@@ -16,7 +16,7 @@ class ProductsGenerator:
             dict(name='Pen drive 32GB', price= 50, description=''),
             dict(name='Celular', price=1000, description=''),
             dict(name='Garrafa Térmica', price=40, description=''),
-
+            dict(name='Cadeira Gamer', price=40, description=''),
         ]
 
     def create_products(self):
@@ -32,5 +32,4 @@ class ProductsGenerator:
 
     def save_data(self):
         products_list = self.create_products()
-        Product.objects.bulk_create(products_list)
-        print('Data has saved in database.')
+        return Product.objects.bulk_create(products_list)

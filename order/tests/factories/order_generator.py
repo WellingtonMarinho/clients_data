@@ -8,7 +8,6 @@ class OrderGenerator():
     def random_id(self, model):
         return randint(1, model.objects.count())
 
-
     def get_object(self, instance):
         instance_id = self.random_id(instance)
         return instance.objects.get(id=instance_id)
@@ -20,6 +19,6 @@ class OrderGenerator():
         list_products = [self.get_object(Product) for _ in range(randint(1, 4))]
 
         for each_product in list_products:
-            order_items = OrderItems.objects.create(order=order, product=each_product)
+            order_items = OrderItems.objects.create(order=order, product=each_product, quantity=randint(1, 5))
 
         return order_items
