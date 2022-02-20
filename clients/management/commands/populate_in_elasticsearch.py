@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def create(self, **kwargs):
         try:
-            for each in range(300):
+            for each in range(80):
                 print(each)
                 people = PeopleGenerator()
                 people.save_people()
