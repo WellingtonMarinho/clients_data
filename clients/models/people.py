@@ -87,6 +87,8 @@ class People(BaseModel):
     def absolute_url_api(self):
         return reverse('clients:people-detail', kwargs={'people_sid': self.uuid})
 
+    def all_orders(self):
+        return self.orders.all()
 
 def on_transaction_commit(func):
     """

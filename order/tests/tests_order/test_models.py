@@ -14,7 +14,8 @@ class OrderModelTestCase(TestCase):
         self.order_item = OrderItems.objects.create(product=self.product, order=self.order, quantity=666)
 
     def test_str_order(self):
-        self.assertEqual(str(self.order), str(self.people))
+        dunder_str = f'{self.order.client.name} -- R$ {self.order.total_order}'
+        self.assertEqual(str(self.order), dunder_str)
 
     def test_str_order_items(self):
         dunder_str = f'{self.product.name} - {self.order.client}'

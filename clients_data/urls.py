@@ -24,6 +24,7 @@ urlpatterns = [
     path('clients/', include('clients.urls', namespace='clients')),
     path('api/', include('order.urls', namespace='api')),
     path('', include('order.web.urls', namespace='orders')),
+    path('spotify/', include('spotify_ninja.urls', namespace='spotify')),
 
     # Swagger OpenAPI
     path('schema', SpectacularAPIView.as_view(), name='schema'),

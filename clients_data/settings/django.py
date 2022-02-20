@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     'elasticsearch_app',
+    'spotify_ninja',
     'clients',
     'order',
     'base',
