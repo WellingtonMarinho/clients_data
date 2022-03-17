@@ -1,0 +1,33 @@
+See the visual representation on: https://dbdiagram.io/d
+
+
+Table order {
+   id int [pk]
+   number varchar
+   created_at datetime
+   operator_id int
+   customer_id int
+ }
+
+Table order_item {
+  id int [pk]
+  order_id int [ref: > order.id]
+  product_id int [ref: > product.id]
+  quantity decimal
+  price decimal
+  discount decimal
+}
+
+Table product {
+  id int [pk]
+  name customer_id
+  category int [ref: > category.id]
+  price decimal
+
+}
+
+Table category {
+  id int [pk]
+  name str
+
+}
