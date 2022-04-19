@@ -29,3 +29,14 @@
 
 #### Update docker image in heroku server
     $ heroku container:release web
+
+
+### Activate Hot Reload with Ipython in shell_plus django extensions 
+    in .ipython/profile_default create file ipython_config.py then add: 
+
+    print("--------->>>>>>>> ENABLE AUTORELOAD <<<<<<<<<------------")
+    
+    c = get_config()
+    c.InteractiveShellApp.exec_lines = []
+    c.InteractiveShellApp.exec_lines.append('%load_ext autoreload')
+    c.InteractiveShellApp.exec_lines.append('%autoreload 2')
