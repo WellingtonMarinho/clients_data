@@ -31,6 +31,10 @@
     $ heroku container:release web
 
 
+## Exemple how to create a virtualenv using virtual wrapper and other python version 
+    $ mkvirtualenv -p ~/.pyenv/versions/3.10.4/bin/python3.10 -a `pwd` teste_env
+
+
 ### Activate Hot Reload with Ipython in shell_plus django extensions 
     in .ipython/profile_default create file ipython_config.py then add: 
 
